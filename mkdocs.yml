@@ -1,0 +1,91 @@
+site_name: OSM Power Plants
+site_description: Extract and process power plant data from OpenStreetMap
+site_url: https://open-energy-transition.github.io/osm-powerplants
+repo_url: https://github.com/open-energy-transition/osm-powerplants
+repo_name: open-energy-transition/osm-powerplants
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: green
+      accent: light green
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: green
+      accent: light green
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true
+            show_root_heading: true
+            heading_level: 2
+            members_order: source
+            docstring_style: numpy
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - pymdownx.snippets
+  - admonition
+  - tables
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Configuration: getting-started/configuration.md
+  - User Guide:
+    - CLI Reference: user-guide/cli.md
+    - Python API: user-guide/python-api.md
+    - Data Output: user-guide/data-output.md
+    - Caching: user-guide/caching.md
+  - Advanced:
+    - Architecture: advanced/architecture.md
+    - Processing Pipeline: advanced/pipeline.md
+    - Extending: advanced/extending.md
+  - API Reference:
+    - Interface: api/interface.md
+    - Models: api/models.md
+    - Workflow: api/workflow.md
+  - Contributing: contributing.md
+  - Changelog: changelog.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/open-energy-transition/osm-powerplants
