@@ -44,7 +44,7 @@ df = process_countries_simple(
 
 ## Documentation
 
-Full docs: <https://open-energy-transition.github.io/osm-powerplants>
+Full docs: <https://open-energy-transition.github.io/osm_powerplants>
 
 ## Integration with powerplantmatching
 

@@ -58,7 +58,7 @@ osm-powerplants = "osm_powerplants.cli:main"
 [project.urls]
 Homepage = "https://github.com/open-energy-transition/osm_powerplants"
 Repository = "https://github.com/open-energy-transition/osm_powerplants"
-Documentation = "https://open-energy-transition.github.io/osm-powerplants"
+Documentation = "https://open-energy-transition.github.io/osm_powerplants"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/osm_powerplants"]

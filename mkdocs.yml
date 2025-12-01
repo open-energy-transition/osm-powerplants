@@ -1,6 +1,6 @@
 site_name: OSM Power Plants
 site_description: Extract and process power plant data from OpenStreetMap
-site_url: https://open-energy-transition.github.io/osm-powerplants
+site_url: https://open-energy-transition.github.io/osm_powerplants
 repo_url: https://github.com/open-energy-transition/osm_powerplants
 repo_name: open-energy-transition/osm_powerplants
 
