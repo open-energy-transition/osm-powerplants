@@ -10,7 +10,8 @@ readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
 authors = [
-    { name = "Open Energy Transition", email = "info@openenergytransition.org" },
+    { name = "Carlos Gaete", email = "carlos.gaete@openenergytransition.org" },
+    { name = "Fabian Hofmann", email = "fabian.hofmann@openenergytransition.org" },
 ]
 keywords = ["openstreetmap", "power plants", "energy", "osm", "overpass"]
 classifiers = [
@@ -21,6 +22,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering",
 ]
 dependencies = [
