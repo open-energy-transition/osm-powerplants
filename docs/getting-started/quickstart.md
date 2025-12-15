@@ -21,10 +21,10 @@ osm-powerplants process Chile --force-refresh -o chile.csv
 ## Python
 
 ```python
-from osm_powerplants import process_countries_simple, get_config, get_cache_dir
+from osm_powerplants import process_units, get_config, get_cache_dir
 
 config = get_config()
-df = process_countries_simple(
+df = process_units(
     countries=["Chile", "Greece"],
     config=config,
     cache_dir=str(get_cache_dir(config)),

@@ -6,7 +6,7 @@ Example 6: Regional Queries
 Query raw OSM power elements in custom regions (bbox, radius).
 
 Note: Regional queries return raw OSM element counts, not processed
-power plants. Use process_countries_simple() for processed data.
+power plants. Use process_units() for processed data.
 """
 
 from osm_powerplants import get_cache_dir, get_config
@@ -53,4 +53,4 @@ except Exception as e:
 print("\n" + "=" * 50)
 print("Note: Regional queries return raw OSM element counts.")
 print("For processed power plant data, use:")
-print("  process_countries_simple(['Luxembourg'], config, cache_dir)")
+print("  process_units(['Luxembourg'], config, cache_dir)")

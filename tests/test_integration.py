@@ -6,12 +6,12 @@ import pytest
 @pytest.mark.slow
 def test_process_small_country():
     """Test full processing pipeline with a small country."""
-    from osm_powerplants import get_cache_dir, get_config, process_countries_simple
+    from osm_powerplants import get_cache_dir, get_config, process_units
 
     config = get_config()
     cache_dir = str(get_cache_dir(config))
 
-    df = process_countries_simple(
+    df = process_units(
         countries=["Luxembourg"],
         config=config,
         cache_dir=cache_dir,

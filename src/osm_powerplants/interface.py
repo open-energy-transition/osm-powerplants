@@ -10,7 +10,7 @@ data from OpenStreetMap. It handles country validation, multi-level caching,
 and data processing.
 
 Main functions:
-    process_countries_simple: Simplified entry point for most use cases
+    process_units: Simplified entry point for most use cases
     process_countries: Lower-level function with more options
     validate_countries: Validate country names with fuzzy matching
 """
@@ -623,7 +623,7 @@ def validate_and_standardize_df(
 
 
 # Main entry point
-def process_countries_simple(
+def process_units(
     countries: list[str],
     config: dict,
     cache_dir: str,
@@ -655,9 +655,9 @@ def process_countries_simple(
 
     Examples
     --------
-    >>> from osm_powerplants import process_countries_simple, get_config, get_cache_dir
+    >>> from osm_powerplants import process_units, get_config, get_cache_dir
     >>> config = get_config()
-    >>> df = process_countries_simple(
+    >>> df = process_units(
     ...     countries=['Malta', 'Luxembourg'],
     ...     config=config,
     ...     cache_dir=str(get_cache_dir(config)),

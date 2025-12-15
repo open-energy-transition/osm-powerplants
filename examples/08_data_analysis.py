@@ -6,13 +6,13 @@ Example 8: Data Analysis
 Analyze power plant data with pandas.
 """
 
-from osm_powerplants import get_cache_dir, get_config, process_countries_simple
+from osm_powerplants import get_cache_dir, get_config, process_units
 
 config = get_config()
 cache_dir = get_cache_dir(config)
 
 # Load data for a medium country
-df = process_countries_simple(
+df = process_units(
     countries=["Portugal"],
     config=config,
     cache_dir=str(cache_dir),

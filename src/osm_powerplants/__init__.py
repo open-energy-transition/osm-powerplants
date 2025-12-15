@@ -13,7 +13,7 @@ __version__ = "0.1.0"
 from .core import get_cache_dir, get_config
 from .interface import (
     process_countries,
-    process_countries_simple,
+    process_units,
     validate_countries,
 )
 from .models import Unit, Units
@@ -21,7 +21,7 @@ from .models import Unit, Units
 __all__ = [
     "__version__",
     "process_countries",
-    "process_countries_simple",
+    "process_units",
     "validate_countries",
     "Unit",
     "Units",

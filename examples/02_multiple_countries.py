@@ -6,13 +6,13 @@ Example 2: Multiple Countries
 Process multiple countries and analyze the results.
 """
 
-from osm_powerplants import get_cache_dir, get_config, process_countries_simple
+from osm_powerplants import get_cache_dir, get_config, process_units
 
 config = get_config()
 cache_dir = get_cache_dir(config)
 
 # Process multiple countries
-df = process_countries_simple(
+df = process_units(
     countries=["Luxembourg", "Malta", "Cyprus"],
     config=config,
     cache_dir=str(cache_dir),

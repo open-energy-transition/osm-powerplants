@@ -30,9 +30,9 @@ from powerplantmatching.osm import process_countries
 ### After
 
 ```python
-from osm_powerplants import process_countries_simple, get_config, get_cache_dir
+from osm_powerplants import process_units, get_config, get_cache_dir
 
-df = process_countries_simple(
+df = process_units(
     countries=["Germany"],
     config=get_config(),
     cache_dir=str(get_cache_dir(get_config())),

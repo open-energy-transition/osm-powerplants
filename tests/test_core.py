@@ -18,12 +18,12 @@ def test_public_api():
         get_cache_dir,
         get_config,
         process_countries,
-        process_countries_simple,
+        process_units,
         validate_countries,
     )
 
     assert callable(process_countries)
-    assert callable(process_countries_simple)
+    assert callable(process_units)
     assert callable(validate_countries)
     assert callable(get_config)
     assert callable(get_cache_dir)
