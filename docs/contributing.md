@@ -3,7 +3,7 @@
 ## Setup
 
 ```bash
-git clone https://github.com/open-energy-transition/osm_powerplants.git
+git clone https://github.com/open-energy-transition/osm-powerplants.git
 cd osm-powerplants
 pip install -e ".[dev]"
 pre-commit install

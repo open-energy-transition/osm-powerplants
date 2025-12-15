@@ -1,6 +1,6 @@
 # OSM Power Plants
 
-[![CI](https://github.com/open-energy-transition/osm_powerplants/actions/workflows/ci.yml/badge.svg)](https://github.com/open-energy-transition/osm_powerplants/actions/workflows/ci.yml)
+[![CI](https://github.com/open-energy-transition/osm-powerplants/actions/workflows/ci.yml/badge.svg)](https://github.com/open-energy-transition/osm-powerplants/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 
@@ -44,7 +44,7 @@ df = process_countries_simple(
 
 ## Documentation
 
-Full docs: <https://open-energy-transition.github.io/osm_powerplants>
+Full docs: <https://open-energy-transition.github.io/osm-powerplants>
 
 ## Integration with powerplantmatching
 
@@ -53,7 +53,7 @@ This package provides OSM data for [powerplantmatching](https://github.com/PyPSA
 ## Development
 
 ```bash
-git clone https://github.com/open-energy-transition/osm_powerplants.git
+git clone https://github.com/open-energy-transition/osm-powerplants.git
 cd osm-powerplants
 pip install -e ".[dev]"
 pre-commit install
