@@ -83,7 +83,7 @@ nav:
     - Models: api/models.md
     - Workflow: api/workflow.md
   - Contributing: contributing.md
-  - Changelog: changelog.md
+  - Changelog: CHANGELOG.md
 
 extra:
   social:
