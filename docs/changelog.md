@@ -1,21 +1,6 @@
 # Changelog
 
-Format: [Keep a Changelog](https://keepachangelog.com/), [Semantic Versioning](https://semver.org/)
-
-## [Unreleased]
-
-### Added
-
-- Initial release as standalone package
-- CLI: `process` and `info` commands
-- Multi-level caching (CSV, Units, API)
-- Plant reconstruction from orphaned generators
-- Generator clustering for solar/wind farms
-- Cross-platform paths via platformdirs
-
-## [0.1.0]
-
-Initial public release.
+See [CHANGELOG.md](https://github.com/open-energy-transition/osm-powerplants/blob/main/CHANGELOG.md) for the full changelog.
 
 ---
 

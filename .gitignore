@@ -51,5 +51,7 @@ Thumbs.db
 *.json
 !config.yaml
 !package.json
+!release-please-config.json
+!.release-please-manifest.json
 
 tmp/
