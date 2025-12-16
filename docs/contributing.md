@@ -42,3 +42,24 @@ Include:
 - Steps to reproduce
 - Expected vs actual behavior
 - Error traceback
+
+## Releasing
+
+### PyPI Setup (one-time)
+
+The package uses [Trusted Publishing](https://docs.pypi.org/trusted-publishers/) (OIDC) for secure, tokenless releases.
+
+1. On PyPI, go to [project publishing settings](https://pypi.org/manage/project/osm-powerplants/settings/publishing/)
+2. Add trusted publisher:
+   - Owner: `open-energy-transition`
+   - Repository: `osm-powerplants`
+   - Workflow: `publish.yml`
+   - Environment: `pypi`
+3. On GitHub, create environment named `pypi` (Settings → Environments)
+
+### Publishing
+
+1. Update version in `pyproject.toml`
+2. Commit: `git commit -m "chore: bump version to X.Y.Z"`
+3. Create GitHub release with tag `vX.Y.Z`
+4. The `publish.yml` workflow triggers automatically
