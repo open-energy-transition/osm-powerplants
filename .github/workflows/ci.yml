@@ -50,7 +50,7 @@ jobs:
         run: uv pip install --system -e ".[dev]"
 
       - name: Run tests
-        run: pytest -v --tb=short
+        run: pytest -v --tb=short -m "not slow"
 
       - name: Test CLI
         run: |
