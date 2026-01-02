@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.3](https://github.com/open-energy-transition/osm-powerplants/releases/tag/v0.1.3) (2026-01-02)
+
+### Bug Fixes
+
+* CLI `--version` now uses dynamic version from `__version__`
+
 ## [0.1.2](https://github.com/open-energy-transition/osm-powerplants/releases/tag/v0.1.2) (2026-01-02)
 
 ### Bug Fixes
