@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.2](https://github.com/open-energy-transition/osm-powerplants/releases/tag/v0.1.2) (2026-01-02)
+
+### Bug Fixes
+
+* Sync `__version__` with pyproject.toml
+
 ## [0.1.1](https://github.com/open-energy-transition/osm-powerplants/releases/tag/v0.1.1) (2026-01-02)
 
 ### Changes
