@@ -20,6 +20,7 @@ jobs:
         id: release
         with:
           release-type: python
+          token: ${{ secrets.RELEASE_TOKEN }}
 
   publish:
     needs: release-please

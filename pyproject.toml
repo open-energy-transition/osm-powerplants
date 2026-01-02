@@ -8,10 +8,10 @@ version = "0.1.0"
 description = "Extract and process power plant data from OpenStreetMap"
 readme = "README.md"
 license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.10"
 authors = [
     { name = "Carlos Gaete", email = "carlos.gaete@openenergytransition.org" },
-    { name = "Fabian Hofmann", email = "fabian.hofmann@openenergytransition.org" },
 ]
 keywords = ["openstreetmap", "power plants", "energy", "osm", "overpass"]
 classifiers = [
