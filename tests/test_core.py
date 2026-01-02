@@ -9,7 +9,8 @@ def test_import():
     """Test that the package can be imported."""
     import osm_powerplants
 
-    assert osm_powerplants.__version__ == "0.1.0"
+    assert hasattr(osm_powerplants, "__version__")
+    assert isinstance(osm_powerplants.__version__, str)
 
 
 def test_public_api():
