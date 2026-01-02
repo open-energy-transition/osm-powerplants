@@ -27,9 +27,9 @@ logger = logging.getLogger(__name__)
 # List of Overpass API endpoints to try in order
 # The main server often has capacity issues, so we include mirrors
 OVERPASS_ENDPOINTS = [
-    "https://overpass-api.de/api/interpreter",
-    "https://overpass.kumi.systems/api/interpreter",
-    "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
+    "https://overpass-api.de/api/interpreter",  # Primary (Germany)
+    "https://overpass.private.coffee/api/interpreter",  # Austria, formerly kumi.systems
+    "https://overpass.osm.jp/api/interpreter",  # Japan
 ]
 
 
@@ -256,7 +256,8 @@ class OverpassAPIClient:
                         time.sleep(delay)
                     else:
                         logger.warning(
-                            f"Endpoint {current_url} failed after {self.max_retries} attempts"
+                            f"Endpoint {current_url} failed after "
+                            f"{self.max_retries} attempts"
                         )
 
             # Current endpoint exhausted, try next one
@@ -264,9 +265,10 @@ class OverpassAPIClient:
                 break  # No more endpoints to try
 
         logger.error(
-            f"Failed to query Overpass API after trying all {len(self.api_urls)} endpoints: {str(last_error)}"
+            f"Failed to query Overpass API after trying all "
+            f"{len(self.api_urls)} endpoints: {last_error}"
         )
-        return {"elements": [], "error": f"API connection failed: {str(last_error)}"}
+        return {"elements": [], "error": f"API connection failed: {last_error}"}
 
     def count_country_elements(
         self, country: str, element_type: str = "both"
@@ -360,7 +362,8 @@ out count;"""
             area_filter = f"({poly_str})"
         else:
             logger.warning(
-                f"Unknown region type: {region['type']}' for region '{region.get('name', 'unnamed')}' - returning zero count"
+                f"Unknown region type: {region['type']}' for region "
+                f"'{region.get('name', 'unnamed')}' - returning zero count"
             )
             area_filter = None
 
@@ -561,7 +564,8 @@ out count;"""
             return cached_elements
 
         logger.info(
-            f"Fetching {len(uncached_ids)} uncached {element_type}s out of {len(element_ids)} requested"
+            f"Fetching {len(uncached_ids)} uncached {element_type}s "
+            f"out of {len(element_ids)} requested"
         )
 
         ids_str = ",".join(map(str, uncached_ids))
@@ -588,7 +592,8 @@ out count;"""
         ways = [e for e in elements if e["type"] == "way"]
         relations = [e for e in elements if e["type"] == "relation"]
         logger.info(
-            f"Fetched {len(elements)} elements: {len(nodes)} nodes, {len(ways)} ways, {len(relations)} relations"
+            f"Fetched {len(elements)} elements: {len(nodes)} nodes, "
+            f"{len(ways)} ways, {len(relations)} relations"
         )
 
         if element_type == "node":
@@ -617,7 +622,9 @@ out count;"""
                         ]
                         if uncached_nodes:
                             logger.info(
-                                f"Resolving {len(uncached_nodes)} missing nodes from way {way['id']} (recursion level {recursion_level + 1})"
+                                f"Resolving {len(uncached_nodes)} missing nodes "
+                                f"from way {way['id']} (recursion level "
+                                f"{recursion_level + 1})"
                             )
                             self.get_nodes(
                                 uncached_nodes,
@@ -626,11 +633,13 @@ out count;"""
                             )
                         elif way["nodes"]:
                             logger.debug(
-                                f"All {len(way['nodes'])} nodes from way {way['id']} already in cache"
+                                f"All {len(way['nodes'])} nodes from way "
+                                f"{way['id']} already in cache"
                             )
             elif recursion_level >= 2 and ways:
                 logger.warning(
-                    f"Recursion limit reached when processing way nodes (level {recursion_level})"
+                    f"Recursion limit reached when processing way nodes "
+                    f"(level {recursion_level})"
                 )
         elif element_type == "relation":
             if country_code:
@@ -652,7 +661,9 @@ out count;"""
                             m["ref"] for m in relation["members"] if m["type"] == "way"
                         ]
                         node_members = [
-                            m["ref"] for m in relation["members"] if m["type"] == "node"
+                            m["ref"]
+                            for m in relation["members"]
+                            if m["type"] == "node"
                         ]
 
                         uncached_ways = [
@@ -662,7 +673,9 @@ out count;"""
                         ]
                         if uncached_ways:
                             logger.info(
-                                f"Resolving {len(uncached_ways)} missing ways from relation {relation['id']} (recursion level {recursion_level + 1})"
+                                f"Resolving {len(uncached_ways)} missing ways "
+                                f"from relation {relation['id']} (recursion level "
+                                f"{recursion_level + 1})"
                             )
                             self.get_ways(
                                 uncached_ways,
@@ -671,7 +684,8 @@ out count;"""
                             )
                         elif way_members:
                             logger.debug(
-                                f"All {len(way_members)} ways from relation {relation['id']} already in cache"
+                                f"All {len(way_members)} ways from relation "
+                                f"{relation['id']} already in cache"
                             )
 
                         uncached_nodes = [
@@ -681,7 +695,9 @@ out count;"""
                         ]
                         if uncached_nodes:
                             logger.info(
-                                f"Resolving {len(uncached_nodes)} missing nodes from relation {relation['id']} (recursion level {recursion_level + 1})"
+                                f"Resolving {len(uncached_nodes)} missing nodes "
+                                f"from relation {relation['id']} (recursion level "
+                                f"{recursion_level + 1})"
                             )
                             self.get_nodes(
                                 uncached_nodes,
@@ -690,11 +706,13 @@ out count;"""
                             )
                         elif node_members:
                             logger.debug(
-                                f"All {len(node_members)} nodes from relation {relation['id']} already in cache"
+                                f"All {len(node_members)} nodes from relation "
+                                f"{relation['id']} already in cache"
                             )
             elif recursion_level >= 2 and (relations or ways):
                 logger.warning(
-                    f"Recursion limit reached when processing relation members (level {recursion_level})"
+                    f"Recursion limit reached when processing relation members "
+                    f"(level {recursion_level})"
                 )
 
         return cached_elements + fetched_elements
@@ -840,7 +858,8 @@ out count;"""
 
             if uncached_node_ids:
                 logger.info(
-                    f"Resolving {len(uncached_node_ids)} uncached nodes out of {len(unique_node_ids)} referenced"
+                    f"Resolving {len(uncached_node_ids)} uncached nodes "
+                    f"out of {len(unique_node_ids)} referenced"
                 )
                 self.get_nodes(uncached_node_ids, country_code=country_code)
             elif unique_node_ids:
@@ -850,7 +869,8 @@ out count;"""
 
             if uncached_way_ids:
                 logger.info(
-                    f"Resolving {len(uncached_way_ids)} uncached ways out of {len(unique_way_ids)} referenced"
+                    f"Resolving {len(uncached_way_ids)} uncached ways "
+                    f"out of {len(unique_way_ids)} referenced"
                 )
                 self.get_ways(uncached_way_ids, country_code=country_code)
             elif unique_way_ids:
@@ -860,12 +880,14 @@ out count;"""
 
             if uncached_relation_ids:
                 logger.info(
-                    f"Resolving {len(uncached_relation_ids)} uncached relations out of {len(unique_relation_ids)} referenced"
+                    f"Resolving {len(uncached_relation_ids)} uncached relations "
+                    f"out of {len(unique_relation_ids)} referenced"
                 )
                 self.get_relations(uncached_relation_ids, country_code=country_code)
             elif unique_relation_ids:
                 logger.info(
-                    f"All {len(unique_relation_ids)} referenced relations already in cache"
+                    f"All {len(unique_relation_ids)} referenced relations "
+                    "already in cache"
                 )
 
             plants_data["elements"] = sorted(plants_data["elements"], key=type_order)
