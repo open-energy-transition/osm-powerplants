@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.1](https://github.com/open-energy-transition/osm-powerplants/releases/tag/v0.1.1) (2026-01-02)
+
+### Changes
+
+* Simplified CI workflow - removed Release Please, single main branch
+* Skip slow integration tests by default (require external Overpass API)
+* Added manual PyPI publish workflow
+
 ## 0.1.0 (2025-12-16)
 
 
