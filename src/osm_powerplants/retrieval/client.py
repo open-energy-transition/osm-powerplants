@@ -24,6 +24,14 @@ from .cache import CountryCoordinateCache, ElementCache
 
 logger = logging.getLogger(__name__)
 
+# List of Overpass API endpoints to try in order
+# The main server often has capacity issues, so we include mirrors
+OVERPASS_ENDPOINTS = [
+    "https://overpass-api.de/api/interpreter",
+    "https://overpass.kumi.systems/api/interpreter",
+    "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
+]
+
 
 class OverpassAPIClient:
     """Client for interacting with the Overpass API to retrieve OSM data.
@@ -35,8 +43,8 @@ class OverpassAPIClient:
 
     Attributes
     ----------
-    api_url : str
-        Overpass API endpoint URL
+    api_urls : list[str]
+        List of Overpass API endpoint URLs to try
     cache : ElementCache
         Multi-level cache for OSM elements
     timeout : int
@@ -44,11 +52,13 @@ class OverpassAPIClient:
     max_retries : int
         Maximum retry attempts for failed queries
     retry_delay : int
-        Delay between retries in seconds
+        Base delay between retries in seconds
     show_progress : bool
         Whether to show progress bars
     _country_cache : CountryCoordinateCache
         Cache for country coordinate lookups
+    _current_endpoint_index : int
+        Index of currently active endpoint
 
     Examples
     --------
@@ -63,7 +73,7 @@ class OverpassAPIClient:
         cache_dir: str | None = None,
         timeout: int = 300,
         max_retries: int = 3,
-        retry_delay: int = 5,
+        retry_delay: int = 10,
         cache_size_gb: int = 12,
         show_progress: bool = True,
         country_cache: Union[dict, "CountryCoordinateCache"] | None = None,
@@ -73,15 +83,16 @@ class OverpassAPIClient:
         Parameters
         ----------
         api_url : str, optional
-            Overpass API URL. Defaults to public instance.
+            Overpass API URL. If provided, only this endpoint is used.
+            If None, uses the default list of endpoints with fallback.
         cache_dir : str, optional
             Directory for caching. Uses config default if None.
         timeout : int
             Query timeout in seconds
         max_retries : int
-            Maximum retry attempts
+            Maximum retry attempts per endpoint
         retry_delay : int
-            Seconds between retries
+            Base delay between retries in seconds (increases for server errors)
         cache_size_gb : int
             Maximum cache size in GB
         show_progress : bool
@@ -93,7 +104,14 @@ class OverpassAPIClient:
             config = get_config()
             cache_dir, _ = get_osm_cache_paths(config)
 
-        self.api_url = api_url or "https://overpass-api.de/api/interpreter"
+        # Support both single URL and fallback list
+        if api_url:
+            self.api_urls = [api_url]
+        else:
+            self.api_urls = OVERPASS_ENDPOINTS.copy()
+
+        self._current_endpoint_index = 0
+
         self.cache = ElementCache(cache_dir, cache_size_gb=cache_size_gb)
         self.cache.load_all_caches()
 
@@ -112,6 +130,29 @@ class OverpassAPIClient:
                 self._country_cache._legacy_cache.update(country_cache)
 
         self._country_cache.set_client(self)
+
+    @property
+    def api_url(self) -> str:
+        """Current active API endpoint URL."""
+        return self.api_urls[self._current_endpoint_index]
+
+    def _rotate_endpoint(self) -> bool:
+        """Rotate to the next available endpoint.
+
+        Returns
+        -------
+        bool
+            True if rotated to a new endpoint, False if all endpoints exhausted
+        """
+        if self._current_endpoint_index < len(self.api_urls) - 1:
+            self._current_endpoint_index += 1
+            logger.info(f"Switching to fallback endpoint: {self.api_url}")
+            return True
+        return False
+
+    def _reset_endpoint(self):
+        """Reset to the first (primary) endpoint."""
+        self._current_endpoint_index = 0
 
     def __enter__(self):
         return self
@@ -150,7 +191,7 @@ class OverpassAPIClient:
             pass
 
     def query_overpass(self, query: str) -> dict:
-        """Execute an Overpass API query with retry logic.
+        """Execute an Overpass API query with retry logic and endpoint fallback.
 
         Parameters
         ----------
@@ -165,38 +206,65 @@ class OverpassAPIClient:
         Notes
         -----
         Automatically adds timeout if not present in query.
-        Retries on connection errors with exponential backoff.
+        Tries each endpoint with retries before moving to the next.
+        Uses exponential backoff for server errors (503, 504).
         """
         if "[timeout:" not in query:
             query = query.replace("[out:json]", f"[out:json][timeout:{self.timeout}]")
 
-        retries = 0
         last_error = None
+        self._reset_endpoint()
 
-        while retries < self.max_retries:
-            try:
-                response = requests.post(
-                    self.api_url, data={"data": query}, timeout=self.timeout + 30
-                )
-                response.raise_for_status()
-                return response.json()
+        # Try each endpoint
+        for endpoint_attempt in range(len(self.api_urls)):
+            current_url = self.api_url
+            retries = 0
 
-            except requests.RequestException as e:
-                last_error = e
-                retries += 1
-                if retries < self.max_retries:
-                    logger.warning(
-                        f"Overpass API request failed (attempt {retries}/{self.max_retries}): {str(e)}"
-                        f" - retrying in {self.retry_delay} seconds"
+            # Retry loop for current endpoint
+            while retries < self.max_retries:
+                try:
+                    response = requests.post(
+                        current_url, data={"data": query}, timeout=self.timeout + 30
                     )
-                    time.sleep(self.retry_delay)
-                else:
-                    logger.error(
-                        f"Overpass API request failed after {self.max_retries} attempts: {str(e)}"
+                    response.raise_for_status()
+                    return response.json()
+
+                except requests.RequestException as e:
+                    last_error = e
+                    retries += 1
+                    error_str = str(e)
+
+                    # Check if it's a server overload error (503, 504)
+                    is_server_overload = any(
+                        code in error_str for code in ["503", "504", "429"]
                     )
+
+                    if retries < self.max_retries:
+                        # Use longer delay for server overload errors
+                        if is_server_overload:
+                            # Exponential backoff: 60s, 120s, 240s for overload
+                            delay = self.retry_delay * 6 * (2 ** (retries - 1))
+                        else:
+                            # Standard exponential backoff for other errors
+                            delay = self.retry_delay * (2 ** (retries - 1))
+
+                        logger.warning(
+                            f"Overpass API request to {current_url} failed "
+                            f"(attempt {retries}/{self.max_retries}): {error_str}"
+                            f" - retrying in {delay} seconds"
+                        )
+                        time.sleep(delay)
+                    else:
+                        logger.warning(
+                            f"Endpoint {current_url} failed after {self.max_retries} attempts"
+                        )
+
+            # Current endpoint exhausted, try next one
+            if not self._rotate_endpoint():
+                break  # No more endpoints to try
 
         logger.error(
-            f"Failed to query Overpass API after {self.max_retries} attempts: {str(last_error)}"
+            f"Failed to query Overpass API after trying all {len(self.api_urls)} endpoints: {str(last_error)}"
         )
         return {"elements": [], "error": f"API connection failed: {str(last_error)}"}
 
