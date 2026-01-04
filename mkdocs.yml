@@ -75,6 +75,7 @@ nav:
     - Data Output: user-guide/data-output.md
     - Quality Tracking: user-guide/quality-tracking.md
     - Caching: user-guide/caching.md
+    - Workshop: user-guide/workshop.md
   - Advanced:
     - Architecture: advanced/architecture.md
     - Processing Pipeline: advanced/pipeline.md
