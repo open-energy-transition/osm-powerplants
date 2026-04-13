@@ -25,6 +25,14 @@ from .cache import CountryCoordinateCache, ElementCache
 logger = logging.getLogger(__name__)
 
 
+class OverpassAPIError(RuntimeError):
+    """Raised when an Overpass API query fails after exhausting all retries.
+
+    Surfaces as a loud exception so callers can distinguish a genuine
+    "no elements" response from a network/server failure.
+    """
+
+
 class OverpassAPIClient:
     """Client for interacting with the Overpass API to retrieve OSM data.
 
@@ -198,7 +206,9 @@ class OverpassAPIClient:
         logger.error(
             f"Failed to query Overpass API after {self.max_retries} attempts: {str(last_error)}"
         )
-        return {"elements": [], "error": f"API connection failed: {str(last_error)}"}
+        raise OverpassAPIError(
+            f"API connection failed after {self.max_retries} attempts: {last_error}"
+        ) from last_error
 
     def count_country_elements(
         self, country: str, element_type: str = "both"
