@@ -25,6 +25,39 @@ from .cache import CountryCoordinateCache, ElementCache
 logger = logging.getLogger(__name__)
 
 
+class OverpassAPIError(RuntimeError):
+    """Raised when an Overpass API query fails after exhausting all retries.
+
+    Surfaces as a loud exception so callers can distinguish a genuine
+    "no elements" response from a network/server failure.
+    """
+
+
+_OVERPASS_ERROR_REMARK_KEYWORDS = (
+    "runtime error",
+    "out of memory",
+    "timed out",
+    "timeout",
+    "too many",
+)
+
+
+def _raise_if_overpass_remark_is_error(data: dict) -> None:
+    """Detect Overpass server-side resource failures disguised as HTTP 200.
+
+    Overpass can return a valid JSON body with ``elements: []`` and a
+    ``remark`` field describing the failure when a query exceeds server
+    memory or time limits.  Without this check the caller sees an empty
+    list and proceeds as if the country had no data.
+    """
+    remark = data.get("remark")
+    if not isinstance(remark, str):
+        return
+    lower = remark.lower()
+    if any(kw in lower for kw in _OVERPASS_ERROR_REMARK_KEYWORDS):
+        raise OverpassAPIError(f"Overpass returned error remark: {remark}")
+
+
 class OverpassAPIClient:
     """Client for interacting with the Overpass API to retrieve OSM data.
 
@@ -179,7 +212,9 @@ class OverpassAPIClient:
                     self.api_url, data={"data": query}, timeout=self.timeout + 30
                 )
                 response.raise_for_status()
-                return response.json()
+                data = response.json()
+                _raise_if_overpass_remark_is_error(data)
+                return data
 
             except requests.RequestException as e:
                 last_error = e
@@ -198,7 +233,9 @@ class OverpassAPIClient:
         logger.error(
             f"Failed to query Overpass API after {self.max_retries} attempts: {str(last_error)}"
         )
-        return {"elements": [], "error": f"API connection failed: {str(last_error)}"}
+        raise OverpassAPIError(
+            f"API connection failed after {self.max_retries} attempts: {last_error}"
+        ) from last_error
 
     def count_country_elements(
         self, country: str, element_type: str = "both"
