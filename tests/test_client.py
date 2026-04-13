@@ -1,14 +1,4 @@
-"""Tests for OverpassAPIClient failure-handling correctness.
-
-Covers two bugs:
-
-1. After all retries fail, ``query_overpass`` silently returned a fake empty
-   response (``{"elements": [], "error": ...}``) instead of raising.  Callers
-   had no way to distinguish "API failed" from "country has no plants".
-2. ``get_plants_data`` / ``get_generators_data`` unconditionally wrote the
-   query response to the per-country JSON cache — including empty-on-error
-   responses — which poisoned subsequent retries against mirror endpoints.
-"""
+"""Tests for OverpassAPIClient failure-handling correctness."""
 
 from unittest.mock import MagicMock, patch
 
@@ -127,3 +117,68 @@ def test_failed_call_allows_successful_retry(client):
         result = client.get_plants_data("Luxembourg")
         assert result.get("elements")
         assert len(result["elements"]) == 1
+
+
+# ─── Bug 3: Overpass "200 OK but resource-limited" empty responses ──────────
+
+
+@pytest.mark.parametrize(
+    "remark",
+    [
+        "runtime error: Query run out of memory in \"query\" at line 5",
+        "runtime error: Query timed out in \"query\" at line 1 after 30 seconds",
+        "Query run out of memory using about 2048 MB of RAM",
+        "timed out",
+    ],
+)
+def test_query_overpass_raises_on_error_remark(client, remark):
+    """Overpass sometimes returns HTTP 200 with an ``elements: []`` body and
+    an error in the ``remark`` field (resource-limited / server overload).
+    The client must detect this and raise instead of propagating a
+    falsely-successful empty response."""
+    payload = {"version": 0.6, "elements": [], "remark": remark}
+    mock_resp = MagicMock()
+    mock_resp.json.return_value = payload
+    mock_resp.raise_for_status.return_value = None
+
+    with patch("osm_powerplants.retrieval.client.requests.post") as post:
+        post.return_value = mock_resp
+
+        with pytest.raises(OverpassAPIError) as exc:
+            client.query_overpass("[out:json];node;out;")
+
+        assert "remark" in str(exc.value).lower() or remark.split(":")[0] in str(
+            exc.value
+        )
+
+
+def test_query_overpass_tolerates_harmless_remark(client):
+    """A ``remark`` field WITHOUT error keywords (e.g. informational notice)
+    on an otherwise valid response must NOT trigger a raise."""
+    payload = {
+        "version": 0.6,
+        "elements": [{"type": "node", "id": 1}],
+        "remark": "attic query: this is an informational note",
+    }
+    mock_resp = MagicMock()
+    mock_resp.json.return_value = payload
+    mock_resp.raise_for_status.return_value = None
+
+    with patch("osm_powerplants.retrieval.client.requests.post") as post:
+        post.return_value = mock_resp
+        result = client.query_overpass("[out:json];node;out;")
+        assert result == payload
+
+
+def test_query_overpass_allows_legitimate_empty_result(client):
+    """An empty ``elements`` list with NO remark is a legitimate "no data"
+    response (e.g. tiny area with no plants).  Must return normally."""
+    payload = {"version": 0.6, "elements": []}
+    mock_resp = MagicMock()
+    mock_resp.json.return_value = payload
+    mock_resp.raise_for_status.return_value = None
+
+    with patch("osm_powerplants.retrieval.client.requests.post") as post:
+        post.return_value = mock_resp
+        result = client.query_overpass("[out:json];node;out;")
+        assert result == payload

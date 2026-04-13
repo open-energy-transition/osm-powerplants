@@ -33,6 +33,31 @@ class OverpassAPIError(RuntimeError):
     """
 
 
+_OVERPASS_ERROR_REMARK_KEYWORDS = (
+    "runtime error",
+    "out of memory",
+    "timed out",
+    "timeout",
+    "too many",
+)
+
+
+def _raise_if_overpass_remark_is_error(data: dict) -> None:
+    """Detect Overpass server-side resource failures disguised as HTTP 200.
+
+    Overpass can return a valid JSON body with ``elements: []`` and a
+    ``remark`` field describing the failure when a query exceeds server
+    memory or time limits.  Without this check the caller sees an empty
+    list and proceeds as if the country had no data.
+    """
+    remark = data.get("remark")
+    if not isinstance(remark, str):
+        return
+    lower = remark.lower()
+    if any(kw in lower for kw in _OVERPASS_ERROR_REMARK_KEYWORDS):
+        raise OverpassAPIError(f"Overpass returned error remark: {remark}")
+
+
 class OverpassAPIClient:
     """Client for interacting with the Overpass API to retrieve OSM data.
 
@@ -187,7 +212,9 @@ class OverpassAPIClient:
                     self.api_url, data={"data": query}, timeout=self.timeout + 30
                 )
                 response.raise_for_status()
-                return response.json()
+                data = response.json()
+                _raise_if_overpass_remark_is_error(data)
+                return data
 
             except requests.RequestException as e:
                 last_error = e
