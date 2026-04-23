@@ -767,6 +767,4 @@ def _write_rejection_report(tracker: RejectionTracker, csv_path: str) -> None:
     if tracker.get_total_count() > 0:
         tracker.save_geojson(geojson_path)
     else:
-        logger.info(
-            f"No rejections recorded — skipping GeoJSON at {geojson_path}"
-        )
+        logger.info(f"No rejections recorded — skipping GeoJSON at {geojson_path}")
