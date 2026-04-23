@@ -6,7 +6,7 @@ cache_dir: null  # Default: auto-generate from fn location
 force_refresh: false
 plants_only: true
 missing_name_allowed: true
-missing_technology_allowed: false
+missing_technology_allowed: true
 missing_start_date_allowed: true
 capacity_extraction:
   enabled: true
@@ -64,6 +64,7 @@ source_mapping:
   Geothermal: [geothermal, geothermal;gas, geothermal;steam, geothermal;biomass]
   Waste: [waste, waste_heat, waste_gas, waste;gas, waste;biomass, waste;coal, waste;oil, waste;solar, waste;gasification, waste_heat;gas, wastewater;gas]
   Other: [tidal, wave, osmotic]
+  Battery: [battery]
 technology_mapping:
   Combustion Engine: [combustion, reciprocating_engine, gas_engine, internal_combustion, motor_generator, anaerobic_digestion, bioreactor, gasification, combustion;thermal, combustion;anaerobic_digestion]
   Steam Turbine: [steam_turbine, steam_generator, thermal, boiler, condensing_turbine, fission, geothermal, hydrothermal, steam, combustion;thermal, combustion;steam, combustion, cogeneration]
@@ -75,7 +76,7 @@ technology_mapping:
   Offshore: []
   Onshore: [horizontal_axis, vertical_axis, wind_turbine, nordex energy n 149, vestas_v_90, e_101, vestas_v90, "horizontal:_axis", wind_turbine;photovoltaic, wind_farm]
   PV: [photovoltaic, solar_photovoltaic_panel, ground_mounted, solar, photovoltaic;battery, photovoltaic;thermal, solar_photovoltaic_panel, condensing_turbine;solar_photovoltaic_panel]
-  CSP: [solar_thermal_collector, solar_updraft_tower]
+  CSP: [solar_thermal_collector, solar_updraft_tower, thermal]
   Marine: []
 source_technology_mapping:
   Nuclear: [Steam Turbine]
@@ -90,6 +91,7 @@ source_technology_mapping:
   Lignite: [Steam Turbine]
   Geothermal: [Steam Turbine]
   Waste: [Combustion Engine, Steam Turbine]
+  Battery: []
   Other: [Marine]
 set_mapping:
   # Store: Storage and energy storage technologies
@@ -152,10 +154,10 @@ sources:
   #     unit_capacity: 10.0
 omitted_countries: ["Kosovo"]  # List of names of countries to omit from OSM as can not be queried via Overpass API
 overpass_api:
-  api_url: https://overpass-api.de/api/interpreter  # Default Overpass API endpoint https://overpass.private.coffee/api/interpreter   https://overpass-api.de/api/interpreter
-  timeout: 1200
+  api_url: https://overpass.private.coffee/api/interpreter
+  timeout: 1800
   max_retries: 3
-  retry_delay: 60
+  retry_delay: 90
   cache_size_gb: 12
   show_progress: true
 

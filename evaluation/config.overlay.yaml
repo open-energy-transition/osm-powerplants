@@ -1,0 +1,238 @@
+# Remove pm's default latitude filter; without this the main_query drops
+# the entire Southern Hemisphere.
+main_query: "Name != ''"
+
+# OSM source. reliability_score=3 and net_capacity=true must be repeated
+# because pm replaces the whole OSM block rather than merging with upstream.
+OSM:
+  reliability_score: 3
+  net_capacity: true
+  fn: osm_global.csv
+  url: https://raw.githubusercontent.com/open-energy-transition/osm-powerplants/main/osm_global.csv
+
+# Country scope: union of OSM + GEM country coverage (221 countries).
+# This list was generated from:
+#   python scripts/build_target_countries.py
+# Regenerate after upstream dataset refreshes.
+target_countries:
+  - Afghanistan
+  - Albania
+  - Algeria
+  - American Samoa
+  - Andorra
+  - Angola
+  - Anguilla
+  - Antigua and Barbuda
+  - Argentina
+  - Armenia
+  - Aruba
+  - Australia
+  - Austria
+  - Azerbaijan
+  - Bahamas
+  - Bahrain
+  - Bangladesh
+  - Barbados
+  - Belarus
+  - Belgium
+  - Belize
+  - Benin
+  - Bermuda
+  - Bhutan
+  - Bolivia
+  - Bonaire, Saint Eustatius and Saba
+  - Bosnia and Herzegovina
+  - Botswana
+  - Brazil
+  - British Indian Ocean Territory
+  - British Virgin Islands
+  - Brunei Darussalam
+  - Bulgaria
+  - Burkina Faso
+  - Burundi
+  - Cabo Verde
+  - Cambodia
+  - Cameroon
+  - Canada
+  - Cayman Islands
+  - Central African Republic
+  - Chad
+  - Chile
+  - China
+  - Colombia
+  - Comoros
+  - Congo Republic
+  - Cook Islands
+  - Costa Rica
+  - Croatia
+  - Cuba
+  - Curaçao
+  - Cyprus
+  - Czechia
+  - Côte d'Ivoire
+  - DR Congo
+  - Denmark
+  - Djibouti
+  - Dominica
+  - Dominican Republic
+  - Ecuador
+  - Egypt
+  - El Salvador
+  - Equatorial Guinea
+  - Eritrea
+  - Estonia
+  - Eswatini
+  - Ethiopia
+  - Falkland Islands
+  - Faroe Islands
+  - Fiji
+  - Finland
+  - France
+  - French Guiana
+  - French Polynesia
+  - Gabon
+  - Gambia
+  - Georgia
+  - Germany
+  - Ghana
+  - Greece
+  - Greenland
+  - Guadeloupe
+  - Guam
+  - Guatemala
+  - Guinea
+  - Guinea-Bissau
+  - Guyana
+  - Haiti
+  - Honduras
+  - Hong Kong
+  - Hungary
+  - Iceland
+  - India
+  - Indonesia
+  - Iran
+  - Iraq
+  - Ireland
+  - Isle of Man
+  - Israel
+  - Italy
+  - Jamaica
+  - Japan
+  - Jersey
+  - Jordan
+  - Kazakhstan
+  - Kenya
+  - Kiribati
+  - Kosovo
+  - Kuwait
+  - Kyrgyzstan
+  - Laos
+  - Latvia
+  - Lebanon
+  - Lesotho
+  - Liberia
+  - Libya
+  - Lithuania
+  - Luxembourg
+  - Macau
+  - Madagascar
+  - Malawi
+  - Malaysia
+  - Maldives
+  - Mali
+  - Malta
+  - Martinique
+  - Mauritania
+  - Mauritius
+  - Mayotte
+  - Mexico
+  - Micronesia, Fed. Sts.
+  - Moldova
+  - Mongolia
+  - Montenegro
+  - Morocco
+  - Mozambique
+  - Myanmar
+  - Namibia
+  - Nauru
+  - Nepal
+  - Netherlands
+  - New Caledonia
+  - New Zealand
+  - Nicaragua
+  - Niger
+  - Nigeria
+  - Norfolk Island
+  - North Korea
+  - North Macedonia
+  - Norway
+  - Oman
+  - Pakistan
+  - Palau
+  - Palestine
+  - Panama
+  - Papua New Guinea
+  - Paraguay
+  - Peru
+  - Philippines
+  - Poland
+  - Portugal
+  - Puerto Rico
+  - Qatar
+  - Romania
+  - Russia
+  - Rwanda
+  - Réunion
+  - Samoa
+  - Sao Tome and Principe
+  - Saudi Arabia
+  - Senegal
+  - Serbia
+  - Seychelles
+  - Sierra Leone
+  - Singapore
+  - Slovakia
+  - Slovenia
+  - Solomon Islands
+  - Somalia
+  - South Africa
+  - South Korea
+  - South Sudan
+  - Spain
+  - Sri Lanka
+  - St. Helena
+  - St. Kitts and Nevis
+  - St. Pierre and Miquelon
+  - St. Vincent and the Grenadines
+  - Sudan
+  - Suriname
+  - Sweden
+  - Switzerland
+  - Syria
+  - Taiwan
+  - Tajikistan
+  - Tanzania
+  - Thailand
+  - Timor-Leste
+  - Togo
+  - Tonga
+  - Trinidad and Tobago
+  - Tunisia
+  - Turkmenistan
+  - Türkiye
+  - Uganda
+  - Ukraine
+  - United Arab Emirates
+  - United Kingdom
+  - United States
+  - United States Virgin Islands
+  - Uruguay
+  - Uzbekistan
+  - Vanuatu
+  - Venezuela
+  - Vietnam
+  - Western Sahara
+  - Yemen
+  - Zambia
+  - Zimbabwe
+  - Åland Islands

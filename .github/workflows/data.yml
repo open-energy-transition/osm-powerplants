@@ -1,17 +1,40 @@
-name: Generate OSM Data
+name: Generate Global OSM Data
 
 on:
   schedule:
-    - cron: "0 0 * * 0"  # Weekly on Sunday midnight UTC
-  workflow_dispatch:  # Manual trigger
+    - cron: "0 0 1 * *"  # Monthly on the 1st at 00:00 UTC
+  workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: generate-global-osm-data
+  cancel-in-progress: false
+
 jobs:
   generate:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        region:
+          - europe
+          - russia
+          - north_america
+          - central_america_caribbean
+          - south_america
+          - northern_africa
+          - western_africa
+          - middle_africa
+          - eastern_africa
+          - southern_africa
+          - western_asia
+          - central_asia
+          - southern_asia
+          - southeastern_asia
+          - eastern_asia
+          - oceania
 
     steps:
       - uses: actions/checkout@v4
@@ -27,22 +50,75 @@ jobs:
       - name: Install package
         run: uv pip install --system -e .
 
-      - name: Generate European power plants data
-        run: python scripts/extract_europe.py --clear-cache -o osm_europe.csv
-
-      - name: Show summary
+      - name: Extract ${{ matrix.region }}
         run: |
-          echo "=== Data Summary ==="
-          wc -l osm_europe.csv
-          head -5 osm_europe.csv
+          mkdir -p datasets
+          python scripts/extract_region.py \
+            --region ${{ matrix.region }} \
+            --clear-cache \
+            -o datasets/osm_${{ matrix.region }}.csv
+
+      - name: Region summary
+        run: |
+          echo "=== ${{ matrix.region }} ==="
+          wc -l datasets/osm_${{ matrix.region }}.csv
+          wc -l datasets/osm_${{ matrix.region }}_rejected.csv || true
+
+      - name: Upload region artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: region-${{ matrix.region }}
+          path: |
+            datasets/osm_${{ matrix.region }}.csv
+            datasets/osm_${{ matrix.region }}_rejected.csv
+            datasets/osm_${{ matrix.region }}_rejected.geojson
+          if-no-files-found: error
+          retention-days: 7
+
+  merge:
+    needs: generate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install package
+        run: uv pip install --system -e .
+
+      - name: Download all region artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: datasets
+          pattern: region-*
+          merge-multiple: true
+
+      - name: Merge regional datasets into global
+        run: python scripts/merge_global.py
+
+      - name: Global summary
+        run: |
+          echo "=== osm_global.csv ==="
+          wc -l osm_global.csv
+          head -1 osm_global.csv
           echo ""
-          echo "=== Rejections ==="
-          cat osm_europe_rejections.txt
+          echo "=== osm_global_rejected_plants.csv ==="
+          wc -l osm_global_rejected_plants.csv
+          echo ""
+          echo "=== osm_global_rejected_plants.geojson ==="
+          wc -c osm_global_rejected_plants.geojson
 
       - name: Commit and push
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add -f osm_europe.csv
-          git diff --staged --quiet || git commit -m "chore: update OSM power plants data [skip ci]"
+          git add -f datasets/osm_*.csv datasets/osm_*_rejected.csv datasets/osm_*_rejected.geojson
+          git add -f osm_global.csv osm_global_rejected_plants.csv osm_global_rejected_plants.geojson
+          git diff --staged --quiet || git commit -m "chore: update OSM global dataset [skip ci]"
           git push

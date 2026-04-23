@@ -1,0 +1,299 @@
+# Recommended powerplantmatching configuration that integrates OSM as an
+# additional source. Derived from the evaluation in
+# evaluation/osm_global_report.md (buckets computed in evaluation/evaluation.csv).
+#
+# THIS FILE IS AN OVERLAY, NOT A STANDALONE CONFIG. It only contains the
+# keys that differ from PPM's 710-line default config.yaml. All other
+# data-source URLs/filenames, I/O config, and execution knobs are
+# inherited from the default. Apply with:
+#
+#   import yaml, powerplantmatching as ppm
+#   from powerplantmatching.core import get_config
+#   overlay = yaml.safe_load(open("evaluation/config.ppm_with_osm.yaml"))
+#   ppm.powerplants(config=get_config(**overlay), update=True)
+#
+# Do NOT pass this YAML directly as the full config — matching will
+# fail because every source block (ENTSOE, JRC, OPSD, ...) is missing.
+#
+# Design:
+#   - main_query drops PPM's default lat>=30 filter so Southern-Hemisphere
+#     plants are not discarded.
+#   - target_countries extends PPM's default 36-country EU-plus list to
+#     the 221-country union of OSM + GEM coverage. Without this line the
+#     recommended config would still only process 36 countries.
+#   - OSM is in matching_sources globally, so it can cross-validate any PPM
+#     row regardless of country.
+#   - OSM is in fully_included_sources ONLY for countries where the evaluation
+#     found a defensible unique contribution (osm_primary + osm_complements).
+#     For other countries, OSM-only plants are dropped — PPM is considered
+#     sufficient or the comparison against IRENA is inconclusive.
+#   - Countries in the "likely_duplicates" bucket (Ukraine, Namibia, Dominica,
+#     Ethiopia, Nepal, Palestine) are intentionally excluded from
+#     fully_included. Their over-reports are largely PPM-internal, but until
+#     they are triaged, keeping OSM-only plants would compound the issue.
+
+main_query: "Name != ''"
+
+OSM:
+  reliability_score: 3
+  net_capacity: true
+  fn: osm_global.csv
+  url: https://raw.githubusercontent.com/open-energy-transition/osm-powerplants/main/osm_global.csv
+
+matching_sources:
+  - ENTSOE: not (Country == 'Germany' and Fueltype == 'Wind')
+  - GEO: Capacity >= 1 and not (Country == 'Germany' and Fueltype == 'Wind') and Fueltype not in ['Oil', 'Nuclear'] and not (Country in ['Bulgaria', 'Slovakia'] and Fueltype == 'Hard Coal')
+  - GPD: Capacity >= 1 and not (Country == 'Germany' and Fueltype == 'Wind') and not (Country in ['Czechia', 'Bulgaria', 'Romania'] and Fueltype == 'Hard Coal') and Fueltype != 'Nuclear'
+  - JRC: Capacity >= 1
+  - OPSD: not (Country == 'Germany' and Fueltype == 'Wind') and ((Capacity >= 1 and Fueltype != 'Solar') or Capacity >= 3) and not (Country == 'Spain' and Fueltype == 'Hard Coal') and not (Country == 'Italy' and Fueltype == 'Natural Gas')
+  - BEYONDCOAL
+  - GEM: Capacity >= 3 and not (Country == 'Germany' and Fueltype == 'Wind')
+  - MASTR: (Fueltype != 'Wind') and ((Fueltype == 'Solar' and Capacity >= 3) or (Fueltype == 'Biogas' and Capacity >= 2) or (Fueltype not in ['Solar', 'Biogas'] and Capacity >= 1))
+  - EESI
+  - GHR
+  - OSM: Capacity >= 1
+
+fully_included_sources:
+  - GEM: not (Country == 'Germany' and Fueltype in ['Solar', 'Wind'])
+  - EESI: Fueltype != 'Hydro' and not (Country == 'Germany' and Fueltype == 'Battery')
+  - MASTR: Fueltype != 'Nuclear'
+  - OPSD: Country != 'Germany' and Capacity < 1 and Capacity >= 0.1 and Fueltype == 'Hydro'
+  - BEYONDCOAL
+  - JRC: Country in ['Italy', 'Croatia', 'Serbia', 'Slovakia']
+  # OSM: fully include only in the 38 countries classified as osm_primary
+  # (3) or osm_complements (35) by scripts/evaluate.py.
+  - OSM: >-
+      Capacity >= 1 and Country in [
+      'Belarus','Belize','Bosnia and Herzegovina','British Virgin Islands',
+      'Burkina Faso','Burundi','Cabo Verde','Chile','Croatia','Denmark',
+      'Djibouti','Estonia','Falkland Islands','Faroe Islands','France',
+      'Germany','Greenland','Hungary','Iceland','Jersey','Laos','Lithuania',
+      'Malaysia','Micronesia, Fed. Sts.','Mongolia','Morocco','Myanmar',
+      'Niger','Peru','Portugal','Russia','Sao Tome and Principe','Serbia',
+      'Sweden','Togo','Tonga','Turkmenistan','Vanuatu']
+
+# Country scope: union of OSM + GEM country coverage (221 countries).
+# Mirrored in evaluation/config.overlay.yaml.
+# Regenerate after upstream dataset refreshes.
+target_countries:
+  - Afghanistan
+  - Albania
+  - Algeria
+  - American Samoa
+  - Andorra
+  - Angola
+  - Anguilla
+  - Antigua and Barbuda
+  - Argentina
+  - Armenia
+  - Aruba
+  - Australia
+  - Austria
+  - Azerbaijan
+  - Bahamas
+  - Bahrain
+  - Bangladesh
+  - Barbados
+  - Belarus
+  - Belgium
+  - Belize
+  - Benin
+  - Bermuda
+  - Bhutan
+  - Bolivia
+  - Bonaire, Saint Eustatius and Saba
+  - Bosnia and Herzegovina
+  - Botswana
+  - Brazil
+  - British Indian Ocean Territory
+  - British Virgin Islands
+  - Brunei Darussalam
+  - Bulgaria
+  - Burkina Faso
+  - Burundi
+  - Cabo Verde
+  - Cambodia
+  - Cameroon
+  - Canada
+  - Cayman Islands
+  - Central African Republic
+  - Chad
+  - Chile
+  - China
+  - Colombia
+  - Comoros
+  - Congo Republic
+  - Cook Islands
+  - Costa Rica
+  - Croatia
+  - Cuba
+  - Curaçao
+  - Cyprus
+  - Czechia
+  - Côte d'Ivoire
+  - DR Congo
+  - Denmark
+  - Djibouti
+  - Dominica
+  - Dominican Republic
+  - Ecuador
+  - Egypt
+  - El Salvador
+  - Equatorial Guinea
+  - Eritrea
+  - Estonia
+  - Eswatini
+  - Ethiopia
+  - Falkland Islands
+  - Faroe Islands
+  - Fiji
+  - Finland
+  - France
+  - French Guiana
+  - French Polynesia
+  - Gabon
+  - Gambia
+  - Georgia
+  - Germany
+  - Ghana
+  - Greece
+  - Greenland
+  - Guadeloupe
+  - Guam
+  - Guatemala
+  - Guinea
+  - Guinea-Bissau
+  - Guyana
+  - Haiti
+  - Honduras
+  - Hong Kong
+  - Hungary
+  - Iceland
+  - India
+  - Indonesia
+  - Iran
+  - Iraq
+  - Ireland
+  - Isle of Man
+  - Israel
+  - Italy
+  - Jamaica
+  - Japan
+  - Jersey
+  - Jordan
+  - Kazakhstan
+  - Kenya
+  - Kiribati
+  - Kosovo
+  - Kuwait
+  - Kyrgyzstan
+  - Laos
+  - Latvia
+  - Lebanon
+  - Lesotho
+  - Liberia
+  - Libya
+  - Lithuania
+  - Luxembourg
+  - Macau
+  - Madagascar
+  - Malawi
+  - Malaysia
+  - Maldives
+  - Mali
+  - Malta
+  - Martinique
+  - Mauritania
+  - Mauritius
+  - Mayotte
+  - Mexico
+  - Micronesia, Fed. Sts.
+  - Moldova
+  - Mongolia
+  - Montenegro
+  - Morocco
+  - Mozambique
+  - Myanmar
+  - Namibia
+  - Nauru
+  - Nepal
+  - Netherlands
+  - New Caledonia
+  - New Zealand
+  - Nicaragua
+  - Niger
+  - Nigeria
+  - Norfolk Island
+  - North Korea
+  - North Macedonia
+  - Norway
+  - Oman
+  - Pakistan
+  - Palau
+  - Palestine
+  - Panama
+  - Papua New Guinea
+  - Paraguay
+  - Peru
+  - Philippines
+  - Poland
+  - Portugal
+  - Puerto Rico
+  - Qatar
+  - Romania
+  - Russia
+  - Rwanda
+  - Réunion
+  - Samoa
+  - Sao Tome and Principe
+  - Saudi Arabia
+  - Senegal
+  - Serbia
+  - Seychelles
+  - Sierra Leone
+  - Singapore
+  - Slovakia
+  - Slovenia
+  - Solomon Islands
+  - Somalia
+  - South Africa
+  - South Korea
+  - South Sudan
+  - Spain
+  - Sri Lanka
+  - St. Helena
+  - St. Kitts and Nevis
+  - St. Pierre and Miquelon
+  - St. Vincent and the Grenadines
+  - Sudan
+  - Suriname
+  - Sweden
+  - Switzerland
+  - Syria
+  - Taiwan
+  - Tajikistan
+  - Tanzania
+  - Thailand
+  - Timor-Leste
+  - Togo
+  - Tonga
+  - Trinidad and Tobago
+  - Tunisia
+  - Turkmenistan
+  - Türkiye
+  - Uganda
+  - Ukraine
+  - United Arab Emirates
+  - United Kingdom
+  - United States
+  - United States Virgin Islands
+  - Uruguay
+  - Uzbekistan
+  - Vanuatu
+  - Venezuela
+  - Vietnam
+  - Western Sahara
+  - Yemen
+  - Zambia
+  - Zimbabwe
+  - Åland Islands
