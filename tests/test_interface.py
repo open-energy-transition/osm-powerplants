@@ -84,3 +84,92 @@ def test_validate_countries_empty():
     valid, codes = validate_countries([])
     assert len(valid) == 0
     assert len(codes) == 0
+
+
+# ─── rejected_output_path plumbing (issue #5 follow-up) ─────────────────────
+
+
+def test_process_units_writes_rejection_report(tmp_path, monkeypatch):
+    """When rejected_output_path is set, process_units must create a
+    RejectionTracker, thread it into process_countries, and persist the
+    report as CSV + GeoJSON so users can diagnose why plants were dropped."""
+    import pandas as pd
+
+    import osm_powerplants.interface as iface
+    from osm_powerplants.models import ElementType, RejectionReason
+
+    accepted = pd.DataFrame(
+        {
+            "projectID": ["1"],
+            "Country": ["Kenya"],
+            "Fueltype": ["Hydro"],
+            "Capacity": [5.0],
+        }
+    )
+
+    observed: dict = {}
+
+    def fake_process_countries(*, rejection_tracker, **kwargs):
+        observed["tracker"] = rejection_tracker
+        # Simulate the pipeline finding and discarding one plant.
+        rejection_tracker.add_rejection(
+            element_id="123",
+            element_type=ElementType.WAY,
+            reason=RejectionReason.MISSING_OUTPUT_TAG,
+            details="tags: {'power': 'plant', 'plant:source': 'solar'}",
+            country="Kenya",
+            unit_type="plant",
+            coordinates=(-1.0, 36.0),
+        )
+        return accepted
+
+    monkeypatch.setattr(iface, "process_countries", fake_process_countries)
+
+    out_csv = tmp_path / "plants.csv"
+    rej_csv = tmp_path / "rejected.csv"
+    rej_geojson = tmp_path / "rejected.geojson"
+
+    df = iface.process_units(
+        countries=["Kenya"],
+        config={"force_refresh": True},
+        cache_dir=str(tmp_path / "cache"),
+        output_path=str(out_csv),
+        rejected_output_path=str(rej_csv),
+    )
+
+    assert len(df) == 1
+    assert observed["tracker"] is not None
+    assert out_csv.exists()
+    assert rej_csv.exists()
+    assert rej_geojson.exists()
+
+    rej = pd.read_csv(rej_csv)
+    assert len(rej) == 1
+    assert rej.iloc[0]["reason"] == RejectionReason.MISSING_OUTPUT_TAG.value
+
+
+def test_process_units_without_rejected_output_path_skips_tracker(
+    tmp_path, monkeypatch
+):
+    """Default behaviour: no tracker created, no rejection artefacts written —
+    preserves the pre-existing API for callers that don't need diagnostics."""
+    import pandas as pd
+
+    import osm_powerplants.interface as iface
+
+    observed: dict = {}
+
+    def fake_process_countries(*, rejection_tracker, **kwargs):
+        observed["tracker"] = rejection_tracker
+        return pd.DataFrame()
+
+    monkeypatch.setattr(iface, "process_countries", fake_process_countries)
+
+    iface.process_units(
+        countries=["Kenya"],
+        config={"force_refresh": True},
+        cache_dir=str(tmp_path / "cache"),
+    )
+
+    assert observed["tracker"] is None
+    assert not any(tmp_path.glob("*rejected*"))
