@@ -8,7 +8,7 @@ This package provides tools for extracting, processing, and analyzing
 power plant data from OpenStreetMap.
 """
 
-__version__ = "0.1.3"
+__version__ = "0.1.5"
 
 from .core import get_cache_dir, get_config
 from .interface import (

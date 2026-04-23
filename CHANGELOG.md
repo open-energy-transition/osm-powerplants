@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.1.5](https://github.com/open-energy-transition/osm-powerplants/releases/tag/v0.1.5) (2026-04-23)
 
 ### Features
 
@@ -8,6 +8,13 @@
 * `scripts/extract_region.py` replaces `scripts/extract_europe.py`: parallelizes countries with fallback Overpass endpoints and writes the rejection report in both CSV and GeoJSON form per region.
 * `scripts/merge_global.py` combines regional outputs into global ones.
 * `evaluation/`: reviewer bundle (report, PPM matching + evaluation scripts, recommended PPM overlay) used to decide which countries should have OSM fully included in PPM.
+* `process_units(..., rejected_output_path=...)` writes the dropped-plant rejection report (CSV + sibling GeoJSON) so users can diagnose why a country returned fewer plants than overpass-turbo. README gains a "Why some plants are excluded" section (PR #8, issue #5).
+
+### Bug Fixes
+
+* Send an explicit `osm-powerplants/<version>` User-Agent on every Overpass request — public Overpass instances reject the default `python-requests/X` UA with HTTP 406 (PR #7, issue #5).
+* Regional download path now reads `overpass_api.api_url` from config instead of the wrong key `url`, so user overrides reach the client (PR #7, issue #5).
+* Sync `__version__` in `osm_powerplants/__init__.py` with `pyproject.toml` (was 0.1.3 vs 0.1.4).
 
 ### Changes
 
