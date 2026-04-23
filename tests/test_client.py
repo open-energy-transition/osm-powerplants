@@ -5,7 +5,11 @@ from unittest.mock import MagicMock, patch
 import pytest
 import requests
 
-from osm_powerplants.retrieval.client import OverpassAPIClient, OverpassAPIError
+from osm_powerplants.retrieval.client import (
+    USER_AGENT,
+    OverpassAPIClient,
+    OverpassAPIError,
+)
 
 
 @pytest.fixture
@@ -182,3 +186,23 @@ def test_query_overpass_allows_legitimate_empty_result(client):
         post.return_value = mock_resp
         result = client.query_overpass("[out:json];node;out;")
         assert result == payload
+
+
+# ─── Bug 2: Overpass rejects default requests UA with 406 ───────────────────
+
+
+def test_query_overpass_sends_explicit_user_agent(client):
+    """Public Overpass instances reject `python-requests/X` with HTTP 406, so
+    every request must carry our explicit User-Agent header (issue #5)."""
+    payload = {"elements": []}
+    mock_resp = MagicMock()
+    mock_resp.json.return_value = payload
+    mock_resp.raise_for_status.return_value = None
+
+    with patch("osm_powerplants.retrieval.client.requests.post") as post:
+        post.return_value = mock_resp
+        client.query_overpass("[out:json];node;out;")
+
+        headers = post.call_args.kwargs.get("headers", {})
+        assert headers.get("User-Agent") == USER_AGENT
+        assert "osm-powerplants" in headers["User-Agent"]

@@ -17,12 +17,21 @@ from typing import Union
 import requests
 from tqdm import tqdm
 
+from osm_powerplants import __version__
 from osm_powerplants.core import get_config
 from osm_powerplants.utils import get_country_code, get_osm_cache_paths
 
 from .cache import CountryCoordinateCache, ElementCache
 
 logger = logging.getLogger(__name__)
+
+# Public Overpass instances reject the default `python-requests/X` User-Agent
+# with HTTP 406, so we always send an explicit identifier.
+USER_AGENT = (
+    f"osm-powerplants/{__version__} "
+    "(+https://github.com/open-energy-transition/osm-powerplants)"
+)
+DEFAULT_HEADERS = {"User-Agent": USER_AGENT}
 
 
 class OverpassAPIError(RuntimeError):
@@ -209,7 +218,10 @@ class OverpassAPIClient:
         while retries < self.max_retries:
             try:
                 response = requests.post(
-                    self.api_url, data={"data": query}, timeout=self.timeout + 30
+                    self.api_url,
+                    data={"data": query},
+                    headers=DEFAULT_HEADERS,
+                    timeout=self.timeout + 30,
                 )
                 response.raise_for_status()
                 data = response.json()

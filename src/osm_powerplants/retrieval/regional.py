@@ -194,7 +194,9 @@ def region_download(
     overpass_config = osm_config.get("overpass_api", {})
 
     if api_url is None:
-        api_url = overpass_config.get("url", "https://overpass-api.de/api/interpreter")
+        api_url = overpass_config.get(
+            "api_url", "https://overpass-api.de/api/interpreter"
+        )
 
     if timeout is None:
         timeout = overpass_config.get("timeout", 300)
