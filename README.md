@@ -33,6 +33,41 @@ df = process_units(
 )
 ```
 
+## Why some plants are excluded
+
+OSM is a crowd-sourced dataset, and many `power=plant` elements lack the
+metadata needed to plug them into an energy system model. Every OSM
+element that cannot be resolved into a usable unit is dropped from the
+output and recorded in a rejection report. The dominant reasons are:
+
+| Reason | What it means |
+|---|---|
+| `Missing output tag` | Plant has `power=plant` but no `plant:output:electricity` (and no source-specific capacity-estimation default in `config.yaml`). Very common on solar and geothermal farms. |
+| `Capacity placeholder value` | `plant:output:electricity` is set to a stub like `yes` instead of a number. |
+| `Capacity regex no match` / `Capacity non-numeric` | Capacity tag exists but cannot be parsed (unusual units, free-form text). |
+| `Missing source tag` / `Missing technology tag` | Cannot classify the plant — these can be relaxed with `missing_technology_allowed: True` in config. |
+| `Element within existing plant geometry` | A generator polygon lies inside an already-processed plant boundary (deduplication). |
+
+If a country returns fewer plants than you expected from `overpass-turbo`,
+set `rejected_output_path` to see exactly what was dropped and why:
+
+```python
+config = get_config()
+config["force_refresh"] = True  # rejection data is only populated on API fetches
+
+df = process_units(
+    countries=["Kenya"],
+    config=config,
+    cache_dir=str(get_cache_dir(config)),
+    output_path="kenya.csv",
+    rejected_output_path="kenya_rejected.csv",  # writes CSV + .geojson
+)
+```
+
+The CSV lists each rejection with the OSM URL, coordinates, and reason
+code; the sibling GeoJSON can be loaded in JOSM or QGIS so OSM
+contributors can triage the gaps directly.
+
 ## Output Format
 
 | Column | Description |

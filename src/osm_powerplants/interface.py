@@ -247,7 +247,13 @@ def validate_countries(
 
 
 def process_countries(
-    countries, csv_cache_path, cache_dir, update, osm_config, raw=False
+    countries,
+    csv_cache_path,
+    cache_dir,
+    update,
+    osm_config,
+    raw=False,
+    rejection_tracker: RejectionTracker | None = None,
 ):
     """Process power plant data for specified countries.
 
@@ -265,6 +271,12 @@ def process_countries(
         Configuration dictionary
     raw : bool, default False
         If True, return all columns including metadata
+    rejection_tracker : RejectionTracker, optional
+        If supplied, receives every rejection observed during processing
+        so callers can inspect *why* plants/generators were dropped.
+        Only the API path populates the tracker — cache hits skip it
+        because the rejection record was already discarded when the
+        country was first fetched.
 
     Returns
     -------
@@ -311,6 +323,7 @@ def process_countries(
                 force_refresh,
                 osm_config,
                 client,
+                rejection_tracker=rejection_tracker,
             )
 
             if country_data is not None and not country_data.empty:
@@ -330,7 +343,14 @@ def process_countries(
 
 
 def process_single_country(
-    country, csv_cache_path, config_hash, update, force_refresh, osm_config, client
+    country,
+    csv_cache_path,
+    config_hash,
+    update,
+    force_refresh,
+    osm_config,
+    client,
+    rejection_tracker: RejectionTracker | None = None,
 ):
     """Process a single country, checking cache first.
 
@@ -350,6 +370,8 @@ def process_single_country(
         Configuration dictionary
     client : OverpassAPIClient
         API client instance
+    rejection_tracker : RejectionTracker, optional
+        Forwarded to the API path; cache hits do not populate it.
 
     Returns
     -------
@@ -359,7 +381,9 @@ def process_single_country(
     force_refresh = osm_config.get("force_refresh", False)
 
     if force_refresh:
-        return process_from_api(csv_cache_path, country, osm_config, client)
+        return process_from_api(
+            csv_cache_path, country, osm_config, client, rejection_tracker
+        )
 
     # Check CSV cache first
     country_data = check_csv_cache(csv_cache_path, country, config_hash, update)
@@ -371,7 +395,9 @@ def process_single_country(
         return country_data
 
     # Process from API using existing client
-    return process_from_api(csv_cache_path, country, osm_config, client)
+    return process_from_api(
+        csv_cache_path, country, osm_config, client, rejection_tracker
+    )
 
 
 def check_csv_cache(cache_path, country, config_hash, update):
@@ -454,16 +480,26 @@ def check_units_cache(csv_cache_path, country, config_hash, client):
     return None
 
 
-def process_from_api(csv_cache_path, country, osm_config, client):
+def process_from_api(
+    csv_cache_path,
+    country,
+    osm_config,
+    client,
+    rejection_tracker: RejectionTracker | None = None,
+):
     """Download and process country data from Overpass API.
 
     Creates workflow, processes country, updates CSV cache with results.
+    If ``rejection_tracker`` is supplied it is reused (so aggregated
+    results reflect every processed country); otherwise a local tracker
+    is created and discarded.
     """
     logger.info(f"No valid cache for {country}, processing from API")
 
     try:
         units_collection = Units()
-        rejection_tracker = RejectionTracker()
+        if rejection_tracker is None:
+            rejection_tracker = RejectionTracker()
 
         workflow = Workflow(
             client=client,
@@ -629,6 +665,7 @@ def process_units(
     cache_dir: str,
     output_path: str | None = None,
     raw: bool = True,
+    rejected_output_path: str | None = None,
 ) -> pd.DataFrame:
     """Process power plant data for specified countries.
 
@@ -641,10 +678,22 @@ def process_units(
     cache_dir : str
         Cache directory from get_cache_dir()
     output_path : str, optional
-        Save CSV to this path if provided
+        Save CSV of accepted plants to this path if provided
     raw : bool, default True
         If True, return all columns. If False, remove metadata columns
         (config_hash, created_at, processing_parameters, id).
+    rejected_output_path : str, optional
+        If provided, write the rejection report (CSV) to this path and
+        a sibling GeoJSON file with the same stem and ``.geojson``
+        suffix. The report lists every OSM element that was dropped
+        during processing and the reason (e.g. ``Missing output tag``,
+        ``Capacity regex no match``) — useful for diagnosing why a
+        country returned fewer plants than expected and for feeding
+        triage targets back to OSM contributors.
+
+        Only API-path processing populates the report: countries served
+        from cache contribute nothing. Set ``config['force_refresh'] =
+        True`` to force a fresh fetch when you need a complete report.
 
     Returns
     -------
@@ -662,11 +711,24 @@ def process_units(
     ...     config=config,
     ...     cache_dir=str(get_cache_dir(config)),
     ... )
+
+    Capture the rejection report to understand why plants were dropped:
+
+    >>> config['force_refresh'] = True
+    >>> df = process_units(
+    ...     countries=['Kenya'],
+    ...     config=config,
+    ...     cache_dir=str(get_cache_dir(config)),
+    ...     output_path='kenya.csv',
+    ...     rejected_output_path='kenya_rejected.csv',
+    ... )
     """
     import os
 
     csv_cache_path = os.path.join(cache_dir, "osm_data.csv")
     update = config.get("force_refresh", False)
+
+    tracker = RejectionTracker() if rejected_output_path else None
 
     df = process_countries(
         countries=countries,
@@ -675,9 +737,36 @@ def process_units(
         update=update,
         osm_config=config,
         raw=raw,
+        rejection_tracker=tracker,
     )
 
     if output_path and not df.empty:
         df.to_csv(output_path, index=False)
 
+    if tracker is not None and rejected_output_path:
+        _write_rejection_report(tracker, rejected_output_path)
+
     return df
+
+
+def _write_rejection_report(tracker: RejectionTracker, csv_path: str) -> None:
+    """Persist a rejection tracker as CSV plus a sibling GeoJSON file.
+
+    Always writes the CSV (even when empty) so downstream tooling can
+    rely on the artefact's existence; skips the GeoJSON when there are
+    no rejections with coordinates to surface.
+    """
+    csv_dir = os.path.dirname(csv_path)
+    if csv_dir:
+        os.makedirs(csv_dir, exist_ok=True)
+
+    tracker.generate_report().to_csv(csv_path, index=False)
+
+    root, _ = os.path.splitext(csv_path)
+    geojson_path = f"{root}.geojson"
+    if tracker.get_total_count() > 0:
+        tracker.save_geojson(geojson_path)
+    else:
+        logger.info(
+            f"No rejections recorded — skipping GeoJSON at {geojson_path}"
+        )
