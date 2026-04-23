@@ -1,5 +1,36 @@
 # Changelog
 
+## Unreleased
+
+### Features
+
+* Global dataset pipeline: weekly Europe-only extraction replaced with a monthly global extraction split across 16 regions (`src/osm_powerplants/regions.py`). Matrix CI job per region uploads artifacts; a merge job concatenates into `osm_global.csv` + `osm_global_rejected_plants.csv` + `osm_global_rejected_plants.geojson` at the repo root, with per-region outputs preserved under `datasets/`.
+* `scripts/extract_region.py` replaces `scripts/extract_europe.py`: parallelizes countries with fallback Overpass endpoints and writes the rejection report in both CSV and GeoJSON form per region.
+* `scripts/merge_global.py` combines regional outputs into global ones.
+* `evaluation/`: reviewer bundle (report, PPM matching + evaluation scripts, recommended PPM overlay) used to decide which countries should have OSM fully included in PPM.
+
+### Changes
+
+* Default `config.yaml` now enables `missing_technology_allowed`, adds a Battery mapping, extends CSP technology patterns, and points to the `overpass.private.coffee` endpoint with a longer timeout/retry — absorbed from the previous sibling `config.global.yaml`.
+* Legacy root `osm_europe.csv` is frozen and retained for back-compat with the current PPM config; it will be removed once the PPM PR that re-points to `osm_global.csv` merges.
+
+## [0.1.4](https://github.com/open-energy-transition/osm-powerplants/releases/tag/v0.1.4) (2026-04-15)
+
+### Features
+
+* Use alternative Overpass endpoint (`overpass.private.coffee`) for improved availability
+* Workshop notebook with Colab launch button
+
+### Bug Fixes
+
+* Detect Overpass resource-limit errors disguised as HTTP 200 responses (PR #4)
+* Raise `OverpassAPIError` on exhausted retries instead of returning a silent empty response (PR #4)
+
+### Changes
+
+* Demo country switched from Malta to Colombia
+* Tests no longer pin hardcoded version strings
+
 ## [0.1.3](https://github.com/open-energy-transition/osm-powerplants/releases/tag/v0.1.3) (2026-01-02)
 
 ### Bug Fixes
