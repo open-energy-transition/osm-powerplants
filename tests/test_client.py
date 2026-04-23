@@ -129,8 +129,8 @@ def test_failed_call_allows_successful_retry(client):
 @pytest.mark.parametrize(
     "remark",
     [
-        "runtime error: Query run out of memory in \"query\" at line 5",
-        "runtime error: Query timed out in \"query\" at line 1 after 30 seconds",
+        'runtime error: Query run out of memory in "query" at line 5',
+        'runtime error: Query timed out in "query" at line 1 after 30 seconds',
         "Query run out of memory using about 2048 MB of RAM",
         "timed out",
     ],
