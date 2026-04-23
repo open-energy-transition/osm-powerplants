@@ -1,40 +1,42 @@
 # Architecture
 
-## Package Structure
+## Package structure
 
 ```
 osm_powerplants/
 ├── cli.py           # Command-line interface
 ├── core.py          # Configuration, paths
-├── interface.py     # High-level API
+├── interface.py     # High-level API (process_units, process_countries)
 ├── models.py        # Unit, Units, RejectionReason
 ├── workflow.py      # Processing orchestration
-├── retrieval/       # Overpass API, caching
-├── parsing/         # OSM element parsing
-├── enhancement/     # Clustering, reconstruction
-└── quality/         # Rejection tracking
+├── retrieval/       # Overpass API client, caching
+├── parsing/         # OSM element → Unit
+├── enhancement/     # Clustering, plant reconstruction
+└── quality/         # RejectionTracker
 ```
 
-## Data Flow
+## Data flow
 
 ```
 Countries → Validate → Retrieve (cache/API) → Parse → Enhance → Validate → DataFrame
+                                                   ↓
+                                          RejectionTracker
 ```
 
-1. **Validate**: Check country names via pycountry
-2. **Retrieve**: Check cache hierarchy, query Overpass API if needed
-3. **Parse**: Extract fuel type, technology, capacity from OSM tags
-4. **Enhance**: Cluster generators, reconstruct plants from orphans
-5. **Validate**: Ensure valid fuel types, technologies, sets
+1. **Validate** — check country names via `pycountry`.
+2. **Retrieve** — walk the cache hierarchy, query Overpass when needed.
+3. **Parse** — pull fuel type, technology, capacity from OSM tags.
+4. **Enhance** — cluster nearby generators, reconstruct plants from orphaned generators.
+5. **Validate** — ensure valid fuel types, technologies, sets.
 
-## Key Classes
+Every element dropped along the way is recorded in the
+`RejectionTracker`, which `process_units` can persist via
+`rejected_output_path`.
 
-**Unit**: Single power plant with all attributes
+## Key classes
 
-**Units**: Collection with filtering and export methods
-
-**Workflow**: Orchestrates the processing pipeline
-
-**OverpassAPIClient**: Handles API queries with retry and caching
-
-**RejectionTracker**: Records why elements fail processing
+- **`Unit`** — a single power plant with all attributes.
+- **`Units`** — collection with filtering and export methods.
+- **`Workflow`** — orchestrates the processing pipeline for a country.
+- **`OverpassAPIClient`** — retries, caches, and talks to Overpass with an explicit User-Agent.
+- **`RejectionTracker`** — records every failed element with a reason code; emits CSV and GeoJSON reports.

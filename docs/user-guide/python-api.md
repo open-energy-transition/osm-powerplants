@@ -1,6 +1,6 @@
 # Python API
 
-## Basic Usage
+## Basic usage
 
 ```python
 from osm_powerplants import (
@@ -19,9 +19,33 @@ df = process_units(
     countries=["Chile", "Greece"],
     config=config,
     cache_dir=str(cache_dir),
-    output_path="plants.csv",  # optional
+    output_path="plants.csv",           # optional
+    rejected_output_path=None,          # optional — see Quality Tracking
 )
 ```
+
+## Capturing rejected elements
+
+Pass `rejected_output_path` to get a CSV + sibling GeoJSON listing every
+OSM element dropped during processing and the reason. Rejection data is
+only populated on API fetches, so set `force_refresh=True` to force a
+re-query when you need a complete report.
+
+```python
+config = get_config()
+config["force_refresh"] = True
+
+df = process_units(
+    countries=["Kenya"],
+    config=config,
+    cache_dir=str(cache_dir),
+    output_path="kenya.csv",
+    rejected_output_path="kenya_rejected.csv",   # writes kenya_rejected.geojson too
+)
+```
+
+See the [Quality Tracking](quality-tracking.md) guide for the list of
+reason codes and examples of how to analyse the report.
 
 ## Configuration
 
@@ -35,7 +59,7 @@ config["units_clustering"]["enabled"] = True
 config = get_config("/path/to/config.yaml")
 ```
 
-## Country Validation
+## Country validation
 
 ```python
 valid, codes = validate_countries(["Germany", "France"])
@@ -60,7 +84,9 @@ units.save_csv("output.csv")
 units.save_geojson_report("output.geojson")
 ```
 
-## Low-Level API
+## Low-level API
+
+For custom pipelines — e.g. running parsing against cached OSM elements without re-entering the `process_units` flow:
 
 ```python
 from osm_powerplants.retrieval.client import OverpassAPIClient
@@ -85,7 +111,7 @@ import geopandas as gpd
 gdf = gpd.GeoDataFrame(
     df,
     geometry=gpd.points_from_xy(df.lon, df.lat),
-    crs="EPSG:4326"
+    crs="EPSG:4326",
 )
 gdf.to_file("plants.gpkg", driver="GPKG")
 ```
