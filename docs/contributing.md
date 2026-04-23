@@ -5,25 +5,22 @@
 ```bash
 git clone https://github.com/open-energy-transition/osm-powerplants.git
 cd osm-powerplants
-git checkout dev
 pip install -e ".[dev]"
 pre-commit install
 ```
 
-## Branching Strategy
+## Workflow
 
+Single long-lived branch: `main`. Features, fixes and docs go in via
+pull request from a topic branch.
+
+```bash
+git checkout -b feat/my-thing    # or fix/, docs/, chore/
+# edit, commit, push
+gh pr create
 ```
-main    ← stable releases only, tagged (v0.1.0, v0.2.0)
-  └── dev    ← integration branch, PRs target here
-       ├── feature/xyz
-       ├── fix/abc
-       └── docs/...
-```
 
-- **Daily work**: Branch from `dev`, create PR back to `dev`
-- **Releases**: Managed automatically by Release Please
-
-## Code Style
+## Code style & tests
 
 ```bash
 ruff check .
@@ -31,52 +28,61 @@ ruff format .
 pytest
 ```
 
-## Pull Request Process
+CI runs lint (`ruff check` + `ruff format --check`), docs build, and
+the test suite on Python 3.10 / 3.11 / 3.12. All must pass before
+merge.
 
-1. Create branch from `dev`: `git checkout dev && git checkout -b feature/name`
-2. Make changes with tests
-3. Run: `pre-commit run --all-files`
-4. Commit: `git commit -m "feat: add feature"`
-5. Push and create PR targeting `dev`
+## Commit messages
 
-## Commit Messages
+[Conventional Commits](https://www.conventionalcommits.org/) — used as
+hints for the changelog, not enforced by automation:
 
-Follow [Conventional Commits](https://www.conventionalcommits.org/):
+- `feat:` new feature
+- `fix:` bug fix
+- `docs:` documentation only
+- `test:` tests only
+- `refactor:` internal restructuring
+- `chore:` maintenance / tooling
+- `feat!:` or `fix!:` breaking change
 
-- `feat:` New feature (bumps minor version)
-- `fix:` Bug fix (bumps patch version)
-- `feat!:` or `fix!:` Breaking change (bumps major version)
-- `docs:` Documentation
-- `test:` Tests
-- `refactor:` Refactoring
-- `chore:` Maintenance
+## Bug reports
 
-## Bug Reports
+Please include:
 
-Include:
-- Version, Python version, OS
+- Package version (`osm-powerplants --version`), Python version, OS
 - Steps to reproduce
-- Expected vs actual behavior
-- Error traceback
+- Expected vs actual behaviour
+- Full error traceback
 
-## Releasing
+## Releasing (maintainers)
 
-Releases are automated via [Release Please](https://github.com/googleapis/release-please-action).
+Release is driven by pushing a `vX.Y.Z` tag:
 
-### How it works
+1. Open a `chore: release X.Y.Z` PR that bumps `__version__`
+   (`src/osm_powerplants/__init__.py`) and `version` in
+   `pyproject.toml`, and moves `CHANGELOG.md`'s `Unreleased` block
+   into a dated `## [X.Y.Z]` section.
+2. Merge the PR.
+3. Tag the merge commit and push:
+   ```bash
+   git checkout main && git pull --ff-only
+   git tag -a vX.Y.Z -m "Release X.Y.Z"
+   git push origin vX.Y.Z
+   ```
+4. Approve the `pypi` environment deployment in the Actions UI when
+   prompted.
 
-1. Conventional commits on `main` trigger Release Please
-2. Release Please creates/updates a "Release PR" with changelog
-3. Merging the Release PR creates a GitHub release and publishes to PyPI
+The `publish.yml` workflow verifies that the tag matches both version
+strings, builds the sdist + wheel, publishes to PyPI via Trusted
+Publishing, and creates a GitHub Release with the matching CHANGELOG
+section as the body.
 
-### PyPI Setup (one-time, maintainers only)
+### PyPI Trusted Publishing (one-time)
 
-The package uses [Trusted Publishing](https://docs.pypi.org/trusted-publishers/) (OIDC).
+[Trusted Publishing](https://docs.pypi.org/trusted-publishers/) is
+already configured:
 
-1. On PyPI, go to [project publishing settings](https://pypi.org/manage/project/osm-powerplants/settings/publishing/)
-2. Add trusted publisher:
-   - Owner: `open-energy-transition`
-   - Repository: `osm-powerplants`
-   - Workflow: `release-please.yml`
-   - Environment: `pypi`
-3. On GitHub, create environment named `pypi` (Settings → Environments)
+- Project: `osm-powerplants`
+- Repository: `open-energy-transition/osm-powerplants`
+- Workflow: `publish.yml`
+- Environment: `pypi` (GitHub environment, approval-gated)
