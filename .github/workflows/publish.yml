@@ -1,10 +1,25 @@
 name: Publish to PyPI
 
+# Tag-driven release. Push an annotated tag like `v0.1.6` to main and the
+# job will:
+#   1. Verify the tag matches `__version__` and `pyproject.toml`.
+#   2. Build the sdist + wheel.
+#   3. Publish to PyPI via Trusted Publishing (no API token).
+#   4. Create a GitHub Release using the matching CHANGELOG.md section
+#      as the body, and mark it `--latest`.
+#
+# Manual fallback: `gh workflow run publish.yml -f tag=v0.1.6` re-runs
+# the same flow against an existing tag (useful if the tag-push run was
+# cancelled or if you need to re-create a missing GitHub Release).
+
 on:
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
     inputs:
-      version:
-        description: 'Version to publish (e.g., 0.1.1)'
+      tag:
+        description: "Existing tag to (re-)publish (e.g., v0.1.6)"
         required: true
         type: string
 
@@ -13,15 +28,75 @@ jobs:
     runs-on: ubuntu-latest
     environment: pypi
     permissions:
-      id-token: write
+      id-token: write   # PyPI Trusted Publishing
+      contents: write   # gh release create
 
     steps:
+      - name: Resolve tag
+        id: tag
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          tag="${INPUT_TAG:-$REF_NAME}"
+          if [[ ! "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([a-zA-Z0-9.+-]*)?$ ]]; then
+            echo "::error::Tag '$tag' does not match v<semver> pattern"
+            exit 1
+          fi
+          version="${tag#v}"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Releasing $tag (version $version)"
+
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.tag.outputs.tag }}
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
+      - name: Verify version metadata matches tag
+        env:
+          VERSION: ${{ steps.tag.outputs.version }}
+        run: |
+          set -e
+          pyproj_version=$(python -c "import tomllib, pathlib; print(tomllib.loads(pathlib.Path('pyproject.toml').read_text())['project']['version'])")
+          init_version=$(python -c "import re, pathlib; print(re.search(r'__version__\s*=\s*\"([^\"]+)\"', pathlib.Path('src/osm_powerplants/__init__.py').read_text()).group(1))")
+          echo "tag=$VERSION pyproject=$pyproj_version __version__=$init_version"
+          if [[ "$pyproj_version" != "$VERSION" ]]; then
+            echo "::error::pyproject.toml version ($pyproj_version) != tag ($VERSION)"
+            exit 1
+          fi
+          if [[ "$init_version" != "$VERSION" ]]; then
+            echo "::error::__version__ ($init_version) != tag ($VERSION)"
+            exit 1
+          fi
+
+      - name: Extract release notes from CHANGELOG.md
+        id: notes
+        env:
+          VERSION: ${{ steps.tag.outputs.version }}
+        run: |
+          set -e
+          notes_file="$RUNNER_TEMP/release_notes.md"
+          # Pull lines from the matching `## [VERSION]` heading up to
+          # (but not including) the next `## [` heading.
+          awk -v v="$VERSION" '
+            $0 ~ "^## \\[" v "\\]" { capture = 1 }
+            capture && /^## \[/ && $0 !~ "^## \\[" v "\\]" { exit }
+            capture { print }
+          ' CHANGELOG.md > "$notes_file"
+          if [[ ! -s "$notes_file" ]]; then
+            echo "::error::No CHANGELOG.md section found for version $VERSION"
+            exit 1
+          fi
+          echo "notes_file=$notes_file" >> "$GITHUB_OUTPUT"
+          echo "----- release notes -----"
+          cat "$notes_file"
+          echo "-------------------------"
 
       - name: Install build tools
         run: pip install build
@@ -31,3 +106,20 @@ jobs:
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.tag.outputs.tag }}
+          NOTES_FILE: ${{ steps.notes.outputs.notes_file }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists — updating notes."
+            gh release edit "$TAG" --notes-file "$NOTES_FILE" --latest
+          else
+            gh release create "$TAG" \
+              --title "$TAG" \
+              --notes-file "$NOTES_FILE" \
+              --latest \
+              dist/*
+          fi
