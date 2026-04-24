@@ -104,21 +104,23 @@ jobs:
 
       - name: Global summary
         run: |
-          echo "=== osm_global.csv ==="
-          wc -l osm_global.csv
-          head -1 osm_global.csv
+          echo "=== osm_global.csv.gz ==="
+          ls -lh osm_global.csv.gz
+          gzip -dc osm_global.csv.gz | wc -l
+          gzip -dc osm_global.csv.gz | head -1
           echo ""
-          echo "=== osm_global_rejected_plants.csv ==="
-          wc -l osm_global_rejected_plants.csv
+          echo "=== osm_global_rejected_plants.csv.gz ==="
+          ls -lh osm_global_rejected_plants.csv.gz
+          gzip -dc osm_global_rejected_plants.csv.gz | wc -l
           echo ""
-          echo "=== osm_global_rejected_plants.geojson ==="
-          wc -c osm_global_rejected_plants.geojson
+          echo "=== osm_global_rejected_plants.geojson.gz ==="
+          ls -lh osm_global_rejected_plants.geojson.gz
 
       - name: Commit and push
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add -f datasets/osm_*.csv datasets/osm_*_rejected.csv datasets/osm_*_rejected.geojson
-          git add -f osm_global.csv osm_global_rejected_plants.csv osm_global_rejected_plants.geojson
+          git add -f osm_global.csv.gz osm_global_rejected_plants.csv.gz osm_global_rejected_plants.geojson.gz
           git diff --staged --quiet || git commit -m "chore: update OSM global dataset [skip ci]"
           git push
