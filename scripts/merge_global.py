@@ -11,14 +11,19 @@ Inputs (all under ``datasets/``):
     osm_<region>_rejected.csv        — per-region rejection report
     osm_<region>_rejected.geojson    — per-region rejected plants on map
 
-Outputs (all at repo root):
-    osm_global.csv                        — concatenated plants
-    osm_global_rejected_plants.csv        — concatenated rejection report
-    osm_global_rejected_plants.geojson    — merged FeatureCollection
+Outputs (all at repo root, gzipped so they stay under GitHub's 100 MB hard
+limit on single files — uncompressed `osm_global.csv` is ~142 MB):
+    osm_global.csv.gz                        — concatenated plants
+    osm_global_rejected_plants.csv.gz        — concatenated rejection report
+    osm_global_rejected_plants.geojson.gz    — merged FeatureCollection
+
+Consumers: ``pandas.read_csv`` and geopandas both auto-decompress via
+``compression="infer"`` when the filename ends in ``.gz``; no explicit
+gunzip step is required on the reader side.
 
 The frozen root-level ``osm_europe.csv`` is intentionally untouched — it is
 retained for back-compat with the current PPM config until the PPM PR that
-repoints to ``osm_global.csv`` merges.
+repoints to ``osm_global.csv.gz`` merges.
 
 Usage:
     python scripts/merge_global.py
@@ -26,6 +31,7 @@ Usage:
 """
 
 import argparse
+import gzip
 import json
 import logging
 import sys
@@ -34,6 +40,11 @@ from pathlib import Path
 import pandas as pd
 
 logger = logging.getLogger("merge_global")
+
+
+def _write_empty_gz(output: Path) -> None:
+    with gzip.open(output, "wb"):
+        pass
 
 
 def _plant_csvs(datasets_dir: Path) -> list[Path]:
@@ -55,7 +66,7 @@ def _rejected_geojsons(datasets_dir: Path) -> list[Path]:
 def merge_csvs(paths: list[Path], output: Path, label: str) -> int:
     if not paths:
         logger.warning(f"no {label} CSVs found")
-        output.write_text("")
+        _write_empty_gz(output)
         return 0
     frames = []
     for p in paths:
@@ -69,10 +80,11 @@ def merge_csvs(paths: list[Path], output: Path, label: str) -> int:
             frames.append(df)
     if not frames:
         logger.warning(f"all {label} CSVs were empty")
-        output.write_text("")
+        _write_empty_gz(output)
         return 0
     combined = pd.concat(frames, ignore_index=True)
-    combined.to_csv(output, index=False)
+    # pandas infers gzip from the .gz suffix
+    combined.to_csv(output, index=False, compression="gzip")
     logger.info(f"{label}: merged {len(frames)} files → {output} ({len(combined)} rows)")
     return len(combined)
 
@@ -91,7 +103,7 @@ def merge_geojsons(paths: list[Path], output: Path) -> int:
             features.extend(region_features)
             files_with_features += 1
     merged = {"type": "FeatureCollection", "features": features}
-    with output.open("w", encoding="utf-8") as f:
+    with gzip.open(output, "wt", encoding="utf-8") as f:
         json.dump(merged, f, ensure_ascii=False)
     logger.info(
         f"rejected geojson: merged {files_with_features} files → {output} "
@@ -134,15 +146,15 @@ def main() -> int:
         f"{len(rejected_geojson_paths)} rejection GeoJSONs"
     )
 
-    plants = merge_csvs(plant_paths, output_dir / "osm_global.csv", "plants")
+    plants = merge_csvs(plant_paths, output_dir / "osm_global.csv.gz", "plants")
     rejected = merge_csvs(
         rejected_csv_paths,
-        output_dir / "osm_global_rejected_plants.csv",
+        output_dir / "osm_global_rejected_plants.csv.gz",
         "rejected",
     )
     rejected_geom = merge_geojsons(
         rejected_geojson_paths,
-        output_dir / "osm_global_rejected_plants.geojson",
+        output_dir / "osm_global_rejected_plants.geojson.gz",
     )
 
     print()
