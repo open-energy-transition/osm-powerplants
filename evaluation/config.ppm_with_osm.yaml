@@ -27,6 +27,12 @@
 #     found a defensible unique contribution (osm_primary + osm_complements).
 #     For other countries, OSM-only plants are dropped — PPM is considered
 #     sufficient or the comparison against IRENA is inconclusive.
+#   - Within those 38 countries, seven (Country, Fueltype) pairs flagged by
+#     the per-fueltype audit (Sweden/Nuclear, BiH/Hydro, Belarus/Nuclear,
+#     Morocco/Solar, Togo/Solar, Cabo Verde/Wind, Hungary/Geothermal) are
+#     additionally excluded because OSM-only capacity there compounds a PPM
+#     over-report against IRENA. See evaluation/osm_global_report.md
+#     "Per-fueltype audit" for the underlying numbers.
 #   - Countries in the "likely_duplicates" bucket (Ukraine, Namibia, Dominica,
 #     Ethiopia, Nepal, Palestine) are intentionally excluded from
 #     fully_included. Their over-reports are largely PPM-internal, but until
@@ -61,7 +67,9 @@ fully_included_sources:
   - BEYONDCOAL
   - JRC: Country in ['Italy', 'Croatia', 'Serbia', 'Slovakia']
   # OSM: fully include only in the 38 countries classified as osm_primary
-  # (3) or osm_complements (35) by scripts/evaluate.py.
+  # (3) or osm_complements (35) by scripts/evaluate.py. Seven (Country,
+  # Fueltype) pairs flagged by the per-fueltype audit are additionally
+  # excluded — see evaluation/osm_global_report.md "Per-fueltype audit".
   - OSM: >-
       Capacity >= 1 and Country in [
       'Belarus','Belize','Bosnia and Herzegovina','British Virgin Islands',
@@ -71,6 +79,13 @@ fully_included_sources:
       'Malaysia','Micronesia, Fed. Sts.','Mongolia','Morocco','Myanmar',
       'Niger','Peru','Portugal','Russia','Sao Tome and Principe','Serbia',
       'Sweden','Togo','Tonga','Turkmenistan','Vanuatu']
+      and not (Country == 'Sweden' and Fueltype == 'Nuclear')
+      and not (Country == 'Bosnia and Herzegovina' and Fueltype == 'Hydro')
+      and not (Country == 'Belarus' and Fueltype == 'Nuclear')
+      and not (Country == 'Morocco' and Fueltype == 'Solar')
+      and not (Country == 'Togo' and Fueltype == 'Solar')
+      and not (Country == 'Cabo Verde' and Fueltype == 'Wind')
+      and not (Country == 'Hungary' and Fueltype == 'Geothermal')
 
 # Country scope: union of OSM + GEM country coverage (221 countries).
 # Mirrored in evaluation/config.overlay.yaml.

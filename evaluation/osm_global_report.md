@@ -12,8 +12,7 @@ This repository builds a global OSM power-plant dataset and evaluates whether ad
   - **6** `likely_duplicates` (Ukraine, Ethiopia, Nepal, Namibia, Palestine, Dominica); four of the six have zero OSM-only capacity, so the over-report is PPM-internal.
   - **3** `insufficient_reference` (no IRENA data, sub-50 MW).
 - Per-fueltype audit flags **9 rows inside the 38 fully-included countries** where OSM compounds a PPM over-report (Sweden/Nuclear, BiH/Hydro, Belarus/Nuclear, Morocco/Solar, etc.).
-- Recommendation encoded in `evaluation/config.ppm_with_osm.yaml`: **OSM globally in `matching_sources`** (cross-validates any PPM row) and **fully-included only in the 38 defensible countries**.
-- **Proposed PR refinement**: narrow the OSM `fully_included` filter with seven `not (Country == '…' and Fueltype == '…')` clauses to drop the clear-duplicate (Country, Fueltype) pairs without removing the host countries. Revises the defensible total from 145.6 GW to **~135 GW** and keeps every other fueltype in Sweden, BiH, Belarus, Morocco, Togo, Cabo Verde and Hungary intact. See "Proposed refinement" at the end of the per-fueltype audit section.
+- Recommendation encoded in `evaluation/config.ppm_with_osm.yaml`: **OSM globally in `matching_sources`** (cross-validates any PPM row) and **fully-included only in the 38 defensible countries**, with seven (Country, Fueltype) duplicate pairs (Sweden/Nuclear, BiH/Hydro, Belarus/Nuclear, Morocco/Solar, Togo/Solar, Cabo Verde/Wind, Hungary/Geothermal) excluded so the duplicate rows are dropped without removing the host countries. Defensible OSM contribution after the filter: **~135 GW**.
 
 ## Methodology
 
@@ -135,7 +134,7 @@ Full per-country table: `evaluation/evaluation.csv`.
 | Tonga | 2 | 0.0 | 1 | 0.0 | 0.0 | 18% |
 | Micronesia, Fed. Sts. | 2 | 0.0 | 1 | 0.0 | 0.0 | 16% |
 
-Across all 35 `osm_complements` countries: **+145.6 GW**.
+Across all 35 `osm_complements` countries: **+145.6 GW** (gross). After the seven (Country, Fueltype) exclusions encoded in `evaluation/config.ppm_with_osm.yaml` (see "Per-fueltype audit" below), the defensible contribution drops to **~135 GW** across the same 38 countries.
 
 ### `osm_primary`
 
@@ -163,10 +162,10 @@ Four of the six flagged countries have **zero** OSM-only capacity — the doubli
 ## Interpretation
 
 - OSM does **not** rescue any large country where PPM is missing — the three `osm_primary` cases are all sub-100 MW territories.
-- OSM **does** add real, cross-validated capacity in 35 mostly European and Eurasian countries — 145 GW in total. In Germany, France, Russia and Sweden the contribution is in the tens of GW and the country-level PPM+OSM totals track IRENA within 15%. At the fueltype level a handful of cells (Sweden/Nuclear, Belarus/Nuclear, BiH/Hydro, Morocco/Solar) show OSM material contributing to an over-report — see the per-fueltype audit above and `evaluation/evaluation_by_fueltype.csv`.
+- OSM **does** add real, cross-validated capacity in 35 mostly European and Eurasian countries — 145 GW gross / ~135 GW after the per-fueltype exclusions. In Germany, France, Russia and Sweden the contribution is in the tens of GW and the country-level PPM+OSM totals track IRENA within 15%. At the fueltype level a handful of cells (Sweden/Nuclear, Belarus/Nuclear, BiH/Hydro, Morocco/Solar) showed OSM material contributing to an over-report; the overlay's `fully_included_sources.OSM` filter excludes these duplicate pairs — see the per-fueltype audit below and `evaluation/evaluation_by_fueltype.csv`.
 - For the remaining ~190 countries the contribution is immaterial or not resolvable against IRENA.
 
-Translating this to a matching configuration: OSM should be used **globally for matching** (so it can cross-validate any PPM row) and **fully included only in the 38 defensible-contribution countries**. That is what `evaluation/config.ppm_with_osm.yaml` encodes.
+Translating this to a matching configuration: OSM is used **globally for matching** (so it can cross-validate any PPM row) and **fully included only in the 38 defensible-contribution countries**, with the seven (Country, Fueltype) duplicate pairs from the per-fueltype audit excluded. That is what `evaluation/config.ppm_with_osm.yaml` encodes.
 
 ## Per-fueltype audit
 
@@ -188,11 +187,11 @@ The audit finds **9 flagged rows inside the 38 fully-included countries**:
 
 Only two of these (Germany/Waste, Portugal/Waste) are PPM-internal with trivial OSM involvement. The other seven are rows where OSM-only MW materially compounds an over-report.
 
-### Proposed refinement (to be discussed during the PR)
+### Filter encoded in the overlay
 
-Rather than fix the seven rows upstream in `osm_global.csv`, the cleaner first step is to **exclude those specific (Country, Fueltype) pairs from the OSM fully-included filter** in `evaluation/config.ppm_with_osm.yaml`. This removes the clear-duplicate rows while keeping every other fueltype in the same country intact — Sweden still benefits from OSM for Hydro/Wind/Solar, Morocco still benefits from OSM for Wind, and so on. The remaining 28 countries that have no flagged (Country, Fueltype) pair are unchanged.
+`evaluation/config.ppm_with_osm.yaml` excludes those seven (Country, Fueltype) pairs from the OSM `fully_included_sources` filter. This removes the clear-duplicate rows while keeping every other fueltype in the same country intact — Sweden still benefits from OSM for Hydro/Wind/Solar, Morocco still benefits from OSM for Wind, and so on. The remaining 28 countries that have no flagged (Country, Fueltype) pair are unchanged.
 
-Concretely, the OSM entry in `fully_included_sources` would gain seven `not (Country == '…' and Fueltype == '…')` clauses:
+The exclusions appear inside the `fully_included_sources.OSM` filter as:
 
 ```yaml
 - OSM: >-
@@ -207,11 +206,9 @@ Concretely, the OSM entry in `fully_included_sources` would gain seven `not (Cou
     and not (Country == 'Hungary' and Fueltype == 'Geothermal')
 ```
 
-Impact: removes **10.55 GW of very-likely-duplicate OSM-only capacity** (7.2% of the 145.6 GW defensible total), leaving a revised defensible contribution of **~135 GW across the same 38 countries**. The two trivial rows (Germany/Waste 14.5 MW, Portugal/Waste 10.3 MW) are left in — their OSM contribution is small enough that it does not move the country-level picture, and they can be revisited if the upstream over-report is cleaned up in PPM.
+Impact: removes **10.55 GW of very-likely-duplicate OSM-only capacity** (7.2% of the 145.6 GW gross contribution), leaving a defensible contribution of **~135 GW across the same 38 countries**. The two trivial rows (Germany/Waste 14.5 MW, Portugal/Waste 10.3 MW) are deliberately left in — their OSM contribution is small enough that it does not move the country-level picture, and the real fix for those rows belongs upstream in PPM's sources, not in this filter.
 
-Rows deliberately **not** excluded are those where PPM is the over-reporter and OSM contributes essentially nothing (Germany/Waste, Portugal/Waste): filtering them would be cosmetic, the real fix belongs upstream in PPM's sources.
-
-Alternative (follow-up): triage the seven rows at source — demote unit-level entries to generator-level in OSM, correct the capacity tag, or remove the duplicates directly in `osm_global.csv`. This is the right long-term fix but requires per-plant review; the filter-based refinement above is the low-risk improvement for this PR.
+Possible follow-up: triage the seven rows at source — demote unit-level entries to generator-level in OSM, correct the capacity tag, or remove the duplicates directly in `osm_global.csv`. This is the right long-term fix but requires per-plant review; the filter encoded above is the low-risk first step.
 
 ## Methodology caveats
 
@@ -223,7 +220,7 @@ Alternative (follow-up): triage the seven rows at source — demote unit-level e
 ## Deliverables
 
 - **Primary dataset**: `osm_global.csv`
-- **Recommended PPM config**: `evaluation/config.ppm_with_osm.yaml` — uses OSM globally in `matching_sources` and fully-includes OSM only in the 38 `osm_primary`+`osm_complements` countries.
+- **Recommended PPM config**: `evaluation/config.ppm_with_osm.yaml` — uses OSM globally in `matching_sources` and fully-includes OSM only in the 38 `osm_primary`+`osm_complements` countries, with seven (Country, Fueltype) duplicate pairs excluded.
   
   This file is an **overlay**, not a standalone config. It encodes only the four keys that differ from PPM's default (`main_query`, `matching_sources`, `fully_included_sources`, `target_countries`) plus the `OSM` source block. All other data-source definitions (ENTSOE, OPSD, JRC, …), I/O settings and execution knobs are inherited from PPM's default `config.yaml`. Apply with:
 
@@ -235,7 +232,7 @@ Alternative (follow-up): triage the seven rows at source — demote unit-level e
   ```
 
   Do **not** pass the YAML directly as the full config: matching will fail because every other source block is missing. Filter strings for the 10 upstream `matching_sources` and 6 upstream `fully_included_sources` are reproduced verbatim from PPM's default; the only functional changes are (a) relaxing the default `lat >= 30` clause in `main_query` to enable the Southern Hemisphere, (b) extending `target_countries` from PPM's 36-country
-  EU-plus list to the 221-country OSM ∪ GEM union, and (c) adding OSM as the 11th matching source and 7th fully-included source.
+  EU-plus list to the 221-country OSM ∪ GEM union, and (c) adding OSM as the 11th matching source and 7th fully-included source, with a country-restricted filter that also excludes seven duplicate (Country, Fueltype) pairs.
   
 - **Per-country evaluation**: `evaluation/evaluation.csv`
 - **Per-(country, fueltype) evaluation**: `evaluation/evaluation_by_fueltype.csv` with the `hidden_duplicate_risk` flag for rows where OSM compounds a PPM over-report at the fueltype level.
