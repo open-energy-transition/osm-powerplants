@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Per-country OSM contribution evaluation. Writes evaluation/evaluation.csv."""
+"""Per-country OSM contribution evaluation.
+
+Reads matched_osm_only.csv and matched_osm_full.csv, writes evaluation.csv
+and evaluation_by_fueltype.csv."""
 
 import ast
 from pathlib import Path
@@ -9,9 +12,8 @@ import pandas as pd
 from powerplantmatching.data import IRENASTAT
 
 EVAL_DIR = Path(__file__).resolve().parent
-REPO_ROOT = EVAL_DIR.parent
-MATCHED = EVAL_DIR / "matching" / "matched_osm_matching.csv"
-OSM_WORLD = REPO_ROOT / "osm_global.csv"
+MATCHED_ONLY = EVAL_DIR / "matching" / "matched_osm_only.csv"
+MATCHED_FULL = EVAL_DIR / "matching" / "matched_osm_full.csv"
 OUT_CSV = EVAL_DIR / "evaluation.csv"
 OUT_FT_CSV = EVAL_DIR / "evaluation_by_fueltype.csv"
 
@@ -22,18 +24,6 @@ def short(series: pd.Series) -> pd.Series:
     uniq = series.dropna().unique().tolist()
     mapping = dict(zip(uniq, cc.convert(names=uniq, to="short_name", not_found=None)))
     return series.map(mapping)
-
-
-def matched_osm_ids(df: pd.DataFrame) -> set[str]:
-    ids: set[str] = set()
-    for p in df["projectID"].dropna():
-        try:
-            d = ast.literal_eval(p)
-        except Exception:
-            continue
-        if "OSM" in d:
-            ids.update(d["OSM"])
-    return ids
 
 
 def classify(r) -> str:
@@ -54,24 +44,30 @@ def classify(r) -> str:
 
 
 def main() -> None:
-    matched = pd.read_csv(MATCHED, index_col=0, low_memory=False)
-    osm = pd.read_csv(OSM_WORLD, low_memory=False)
-    matched["Country"] = short(matched["Country"])
-    osm["Country"] = short(osm["Country"])
+    only = pd.read_csv(MATCHED_ONLY, index_col=0, low_memory=False)
+    full = pd.read_csv(MATCHED_FULL, index_col=0, low_memory=False)
+    only["Country"] = short(only["Country"])
+    full["Country"] = short(full["Country"])
 
-    osm_only = osm[~osm["projectID"].isin(matched_osm_ids(matched))]
+    only_keys = only["projectID"].map(lambda p: set(ast.literal_eval(p)))
+    full_keys = full["projectID"].map(lambda p: set(ast.literal_eval(p)))
+    ppm = only[only_keys != {"OSM"}]
+    osm_only_gross = only[only_keys == {"OSM"}]
+    osm_only_filt = full[full_keys == {"OSM"}]
 
     ir = IRENASTAT()
     ir = ir[ir.Year == ir.Year.max()].copy()
     ir["Country"] = short(ir["Country"])
 
     out = pd.DataFrame({
-        "n_ppm": matched.groupby("Country").size(),
-        "cap_ppm_MW": matched.groupby("Country")["Capacity"].sum(),
-        "n_osm_only": osm_only.groupby("Country").size(),
-        "cap_osm_only_MW": osm_only.groupby("Country")["Capacity"].sum(),
+        "n_ppm": ppm.groupby("Country").size(),
+        "cap_ppm_MW": ppm.groupby("Country")["Capacity"].sum(),
+        "n_osm_only": osm_only_gross.groupby("Country").size(),
+        "cap_osm_only_MW": osm_only_gross.groupby("Country")["Capacity"].sum(),
+        "n_osm_only_filtered": osm_only_filt.groupby("Country").size(),
+        "cap_osm_only_filtered_MW": osm_only_filt.groupby("Country")["Capacity"].sum(),
         "cap_irena_MW": ir.groupby("Country")["Capacity"].sum(),
-    }).fillna({"n_ppm": 0, "cap_ppm_MW": 0.0, "n_osm_only": 0, "cap_osm_only_MW": 0.0})
+    }).fillna(0)
     out["cap_total_MW"] = out.cap_ppm_MW + out.cap_osm_only_MW
     out["osm_only_share"] = (out.cap_osm_only_MW / out.cap_total_MW).where(out.cap_total_MW > 0)
     out["bucket"] = out.apply(classify, axis=1)
@@ -79,12 +75,12 @@ def main() -> None:
     OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(OUT_CSV)
 
-    # Per-(country, fueltype) breakdown
     ft = pd.DataFrame({
-        "cap_ppm_MW": matched.groupby(["Country", "Fueltype"])["Capacity"].sum(),
-        "cap_osm_only_MW": osm_only.groupby(["Country", "Fueltype"])["Capacity"].sum(),
+        "cap_ppm_MW": ppm.groupby(["Country", "Fueltype"])["Capacity"].sum(),
+        "cap_osm_only_MW": osm_only_gross.groupby(["Country", "Fueltype"])["Capacity"].sum(),
+        "cap_osm_only_filtered_MW": osm_only_filt.groupby(["Country", "Fueltype"])["Capacity"].sum(),
         "cap_irena_MW": ir.groupby(["Country", "Fueltype"])["Capacity"].sum(),
-    }).fillna(0.0)
+    }).fillna(0)
     ft["cap_total_MW"] = ft.cap_ppm_MW + ft.cap_osm_only_MW
     ft["hidden_duplicate_risk"] = (
         (ft.cap_osm_only_MW > 0)
@@ -93,22 +89,6 @@ def main() -> None:
     )
     ft = ft.sort_values("cap_osm_only_MW", ascending=False)
     ft.to_csv(OUT_FT_CSV)
-
-    print(f"wrote {OUT_CSV} ({len(out)} countries)")
-    print(f"wrote {OUT_FT_CSV} ({len(ft)} country×fueltype rows)")
-    print(f"OSM-only: {len(osm_only):,} plants / {osm_only.Capacity.sum()/1000:.0f} GW")
-    good = out[out.bucket.isin(["osm_primary", "osm_complements"])]
-    print(f"defensible contribution: {good.cap_osm_only_MW.sum()/1000:.0f} GW across {len(good)} countries")
-    print("\nbuckets:")
-    print(out.bucket.value_counts().to_string())
-
-    # Per-fueltype duplicate-risk summary, restricted to countries in the
-    # recommended fully_included list (osm_primary + osm_complements).
-    good_countries = set(good.index)
-    risk = ft[ft.hidden_duplicate_risk & ft.index.get_level_values(0).isin(good_countries)]
-    print(f"\nhidden per-fueltype duplicate risk rows (in fully_included countries): {len(risk)}")
-    if len(risk):
-        print(risk.head(20).to_string())
 
 
 if __name__ == "__main__":

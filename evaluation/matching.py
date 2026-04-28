@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""Run powerplantmatching for a set of countries in two OSM configurations.
+"""Run powerplantmatching for a set of countries in four OSM configurations.
 
 Runs:
   no_osm        - OSM excluded from matching sources
-  osm_matching  - OSM included as matching_sources
+  osm_matching  - OSM in matching_sources only
+  osm_only      - OSM in matching_sources and fully_included_sources, no filter
+  osm_full      - recommended overlay (config.ppm_with_osm.yaml: 38-country
+                  list and seven-pair fueltype exclusions)
 
 Each run writes evaluation/matching/matched_<label>.csv.
 
@@ -11,11 +14,10 @@ Usage:
     python evaluation/matching.py                        # sample (10 countries)
     python evaluation/matching.py --countries all        # full global run
     python evaluation/matching.py --countries "Germany,France"
-    python evaluation/matching.py --skip no_osm         # resume after run 1
+    python evaluation/matching.py --skip no_osm          # resume after run 1
 """
 
 import argparse
-import logging
 import shutil
 from pathlib import Path
 
@@ -26,51 +28,36 @@ from powerplantmatching.core import _data_in, get_config
 EVAL_DIR = Path(__file__).resolve().parent
 REPO_ROOT = EVAL_DIR.parent
 CONFIG_OVERLAY = EVAL_DIR / "config.overlay.yaml"
+CONFIG_PPM_WITH_OSM = EVAL_DIR / "config.ppm_with_osm.yaml"
 MATCHING_DIR = EVAL_DIR / "matching"
-OSM_CSV = REPO_ROOT / "osm_global.csv"
+OSM_CSV = REPO_ROOT / "osm_global.csv.gz"
 
 SAMPLE_COUNTRIES = [
     "Luxembourg", "Malta", "Iceland", "Cyprus", "Estonia",
     "Latvia", "Lithuania", "Slovenia", "Croatia", "Montenegro",
 ]
 
-logger = logging.getLogger("matching")
-
-
-def _source_name(entry) -> str:
-    return entry if isinstance(entry, str) else next(iter(entry))
-
-
-def _drop_osm(sources: list) -> list:
-    return [s for s in sources if _source_name(s) != "OSM"]
-
 
 def _install_osm() -> None:
-    dest = Path(_data_in("osm_global.csv"))
+    dest = Path(_data_in("osm_global.csv.gz"))
     dest.parent.mkdir(parents=True, exist_ok=True)
     if dest.is_symlink() or dest.exists():
         dest.unlink()
     shutil.copy2(OSM_CSV, dest)
-    logger.info(f"installed {OSM_CSV.name} → {dest}")
 
 
 def _run(label: str, config: dict) -> None:
-    logger.info(f"=== {label} ===")
     df = ppm.powerplants(config=config, update=True)
-    out = MATCHING_DIR / f"matched_{label}.csv"
-    df.to_csv(out)
-    logger.info(f"  {len(df)} plants → {out.name}")
+    df.to_csv(MATCHING_DIR / f"matched_{label}.csv")
 
 
 def main(countries: list[str] | None, skip: set[str] = frozenset()) -> None:
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     MATCHING_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Load overlay values (main_query fix, OSM block, target_countries) and
-    # apply them on top of ppm's default config via kwargs. This keeps ppm's
-    # default matching_sources (which already includes OSM) intact.
     with CONFIG_OVERLAY.open() as f:
         overlay = yaml.safe_load(f)
+    with CONFIG_PPM_WITH_OSM.open() as f:
+        recommended = yaml.safe_load(f)
 
     overlay_base = {
         k: overlay[k] for k in ("main_query", "OSM") if k in overlay
@@ -83,7 +70,6 @@ def main(countries: list[str] | None, skip: set[str] = frozenset()) -> None:
 
     osm_matching_entry = {"OSM": "Capacity >= 1"}
 
-    # subset for testing overrides overlay list; global run uses overlay list
     target = countries if countries is not None else overlay_countries
     extra = {"target_countries": target} if target is not None else {}
 
@@ -100,13 +86,24 @@ def main(countries: list[str] | None, skip: set[str] = frozenset()) -> None:
             fully_included_sources=base_fully,
             **extra,
         )),
+        ("osm_only", get_config(
+            **overlay_base,
+            matching_sources=base_matching + [osm_matching_entry],
+            fully_included_sources=base_fully + [osm_matching_entry],
+            **extra,
+        )),
+        ("osm_full", get_config(
+            **overlay_base,
+            matching_sources=recommended["matching_sources"],
+            fully_included_sources=recommended["fully_included_sources"],
+            **extra,
+        )),
     ]
 
-    needs_osm = {"osm_matching"}
+    needs_osm = {"osm_matching", "osm_only", "osm_full"}
     osm_installed = False
     for label, config in runs:
         if label in skip:
-            logger.info(f"=== {label} — skipped ===")
             continue
         if label in needs_osm and not osm_installed:
             _install_osm()
@@ -129,7 +126,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.countries == "all":
-        countries = None  # let overlay's target_countries apply
+        countries = None
     elif args.countries == "sample":
         countries = SAMPLE_COUNTRIES
     else:
