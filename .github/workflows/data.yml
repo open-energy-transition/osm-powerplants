@@ -2,7 +2,7 @@ name: Generate Global OSM Data
 
 on:
   schedule:
-    - cron: "0 0 1 * *"  # Monthly on the 1st at 00:00 UTC
+    - cron: "0 0 1 */6 *" # Runs at 00:00, on day 1 of the month, every 6 months 
   workflow_dispatch:
 
 permissions:
