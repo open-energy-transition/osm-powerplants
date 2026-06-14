@@ -223,6 +223,7 @@ class GeneratorParser(ElementProcessor):
             capacity=capacity,
             capacity_source=info,
             start_date=start_date,
+            eic=self.extract_eic_from_tags(element),
         )
 
     def set_rejected_plant_info(self, rejected_plant_info: dict[str, Any]):

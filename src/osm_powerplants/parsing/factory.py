@@ -67,6 +67,7 @@ class UnitFactory:
         start_date: int | None = None,
         generator_count: int | None = None,
         unit_type: str = "plant",
+        eic: str | None = None,
     ) -> Unit:
         """Create a standard plant or generator unit.
 
@@ -116,6 +117,7 @@ class UnitFactory:
             Set=determine_set_type(technology, self.config),
             capacity_source=capacity_source,
             DateIn=start_date,
+            EIC=eic,
             id=f"{element_type}/{element_id}",
             created_at=datetime.datetime.now().isoformat(),
             config_hash=self.config_hash,
@@ -255,6 +257,7 @@ class UnitFactory:
         capacity: float,
         capacity_source: str,
         start_date: int | None = None,
+        eic: str | None = None,
     ) -> Unit:
         """Create a standalone generator unit.
 
@@ -299,6 +302,7 @@ class UnitFactory:
             capacity_source=capacity_source,
             start_date=start_date,
             unit_type="generator",
+            eic=eic,
         )
 
     def create_cluster_plant(

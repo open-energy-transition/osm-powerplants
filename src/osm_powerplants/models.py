@@ -160,6 +160,10 @@ class Unit:
         How capacity was determined ('tag', 'estimated', etc.)
     DateIn : int, optional
         Commissioning year
+    EIC : str, optional
+        ENTSO-E Energy Identification Code(s) from the OSM ``ref:EU:EIC``
+        tag; multiple codes kept as the raw semicolon-separated string.
+        Enables deterministic matching against ENTSO-E-derived datasets.
     id : str, optional
         OSM element ID (e.g., 'node/123456')
     created_at : str, optional
@@ -197,6 +201,7 @@ class Unit:
     Set: str | None = None
     capacity_source: str | None = None
     DateIn: int | None = None
+    EIC: str | None = None
     id: str | None = None
 
     created_at: str | None = None
