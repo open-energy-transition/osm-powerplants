@@ -6,512 +6,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          10.15315705722807,
-          5.541760742909014
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 305094997",
-        "type": "Capacity regex no match",
-        "osm_element": "https://www.openstreetmap.org/way/305094997",
-        "rejection_reason": "Capacity regex no match",
-        "rejection_details": "Tag 'plant:output:electricity' has value '25 kW' which could not be parsed",
-        "rejection_keywords": "25 kW",
-        "timestamp": "2026-04-24T03:20:00.286524",
-        "element_type": "way",
-        "element_id": 305094997,
-        "country": "Cameroon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          13.408094272998293,
-          3.558570513212863
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 334876428",
-        "type": "Missing source tag",
-        "osm_element": "https://www.openstreetmap.org/way/334876428",
-        "rejection_reason": "Missing source tag",
-        "rejection_details": "tags: {'name': 'Centrale Electrique de Mindourou', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:20:00.287896",
-        "element_type": "way",
-        "element_id": 334876428,
-        "country": "Cameroon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          12.317607187923896,
-          5.542625781181867
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 354337479",
-        "type": "Missing source tag",
-        "osm_element": "https://www.openstreetmap.org/way/354337479",
-        "rejection_reason": "Missing source tag",
-        "rejection_details": "tags: {'name': 'Camp SONEL', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:20:00.288093",
-        "element_type": "way",
-        "element_id": 354337479,
-        "country": "Cameroon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          13.673622624350964,
-          4.61433013150938
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 479560652",
-        "type": "Missing source tag",
-        "osm_element": "https://www.openstreetmap.org/way/479560652",
-        "rejection_reason": "Missing source tag",
-        "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Centrale Thermique de Mokolo 4', 'operator': 'Eneo', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:20:00.289489",
-        "element_type": "way",
-        "element_id": 479560652,
-        "country": "Cameroon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          10.454148747669747,
-          3.6974951587269134
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 647168950",
-        "type": "Missing source tag",
-        "osm_element": "https://www.openstreetmap.org/way/647168950",
-        "rejection_reason": "Missing source tag",
-        "rejection_details": "tags: {'addr:city': 'Messondo - Plateau', 'landuse': 'industrial', 'name': 'Ancien site Sonel', 'operator': 'Sonel', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:20:00.289641",
-        "element_type": "way",
-        "element_id": 647168950,
-        "country": "Cameroon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          9.762637447505174,
-          4.034768391430409
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 840726197",
-        "type": "Missing source tag",
-        "osm_element": "https://www.openstreetmap.org/way/840726197",
-        "rejection_reason": "Missing source tag",
-        "rejection_details": "tags: {'name': 'Centrale thermique de Logbaba II', 'plant:method': 'combustion', 'plant:output:electricity': 'yes', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:20:00.291931",
-        "element_type": "way",
-        "element_id": 840726197,
-        "country": "Cameroon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          13.349555868992615,
-          2.73403185711241
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 962982893",
-        "type": "Missing output tag",
-        "osm_element": "https://www.openstreetmap.org/way/962982893",
-        "rejection_reason": "Missing output tag",
-        "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:20:00.292430",
-        "element_type": "way",
-        "element_id": 962982893,
-        "country": "Cameroon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          13.719141783523545,
-          4.55853018469592
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 969327904",
-        "type": "Capacity placeholder value",
-        "osm_element": "https://www.openstreetmap.org/way/969327904",
-        "rejection_reason": "Capacity placeholder value",
-        "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
-        "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:20:00.292579",
-        "element_type": "way",
-        "element_id": 969327904,
-        "country": "Cameroon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          12.27201136252804,
-          3.1202362477121977
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1006930158",
-        "type": "Capacity placeholder value",
-        "osm_element": "https://www.openstreetmap.org/way/1006930158",
-        "rejection_reason": "Capacity placeholder value",
-        "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
-        "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:20:00.292707",
-        "element_type": "way",
-        "element_id": 1006930158,
-        "country": "Cameroon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          9.550883785084864,
-          3.8161494961341482
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1056055961",
-        "type": "Capacity placeholder value",
-        "osm_element": "https://www.openstreetmap.org/way/1056055961",
-        "rejection_reason": "Capacity placeholder value",
-        "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
-        "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:20:00.292868",
-        "element_type": "way",
-        "element_id": 1056055961,
-        "country": "Cameroon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          9.8395274358666,
-          2.3781584797445245
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1068549095",
-        "type": "Missing source tag",
-        "osm_element": "https://www.openstreetmap.org/way/1068549095",
-        "rejection_reason": "Missing source tag",
-        "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Centrale Thermique', 'name:de': 'Thermisches Kraftwerk', 'name:es': 'Central Térmica', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:20:00.293053",
-        "element_type": "way",
-        "element_id": 1068549095,
-        "country": "Cameroon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          11.1640479420534,
-          2.812776975441295
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1068817277",
-        "type": "Missing source tag",
-        "osm_element": "https://www.openstreetmap.org/way/1068817277",
-        "rejection_reason": "Missing source tag",
-        "rejection_details": "tags: {'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:20:00.293253",
-        "element_type": "way",
-        "element_id": 1068817277,
-        "country": "Cameroon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          11.59242479631816,
-          3.9741437711511387
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1116226675",
-        "type": "Missing output tag",
-        "osm_element": "https://www.openstreetmap.org/way/1116226675",
-        "rejection_reason": "Missing output tag",
-        "rejection_details": "tags: {'landuse': 'industrial', 'plant:method': 'combustion', 'plant:output:hot_air': 'yes', 'plant:source': 'waste', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:20:00.293446",
-        "element_type": "way",
-        "element_id": 1116226675,
-        "country": "Cameroon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          10.708348256226609,
-          3.235105473044449
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1378357766",
-        "type": "Capacity placeholder value",
-        "osm_element": "https://www.openstreetmap.org/way/1378357766",
-        "rejection_reason": "Capacity placeholder value",
-        "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
-        "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:20:00.294367",
-        "element_type": "way",
-        "element_id": 1378357766,
-        "country": "Cameroon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          14.542750848851341,
-          5.8742281248805535
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1424431610",
-        "type": "Missing output tag",
-        "osm_element": "https://www.openstreetmap.org/way/1424431610",
-        "rejection_reason": "Missing output tag",
-        "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:20:00.294497",
-        "element_type": "way",
-        "element_id": 1424431610,
-        "country": "Cameroon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          16.637433444790158,
-          7.912542148619535
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 189490518",
-        "type": "Missing source tag",
-        "osm_element": "https://www.openstreetmap.org/way/189490518",
-        "rejection_reason": "Missing source tag",
-        "rejection_details": "tags: {'barrier': 'wall', 'name': 'Centrale Électrique محطة كهرباء', 'name:ar': 'محطة كهرباء', 'name:fr': 'Centrale Électrique', 'operator': 'Government', 'power': 'plant', 'project:eurosha_2012': 'yes', 'source': 'GPS', 'source:date': '2012-11-06'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:20:10.770044",
-        "element_type": "way",
-        "element_id": 189490518,
-        "country": "Chad",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          16.794519089865936,
-          8.53198764767908
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1136273735",
-        "type": "Missing output tag",
-        "osm_element": "https://www.openstreetmap.org/way/1136273735",
-        "rejection_reason": "Missing output tag",
-        "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Doba Kome Power Plant', 'plant:source': 'diesel', 'power': 'plant', 'source': 'https://documents1.worldbank.org/curated/en/289441468743146491/pdf/multi-page.pdf', 'wikipedia': 'en:List of power stations in Chad'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:20:10.770555",
-        "element_type": "way",
-        "element_id": 1136273735,
-        "country": "Chad",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          15.177424526376255,
-          12.060434115862222
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1424429671",
-        "type": "Capacity regex no match",
-        "osm_element": "https://www.openstreetmap.org/way/1424429671",
-        "rejection_reason": "Capacity regex no match",
-        "rejection_details": "Tag 'plant:output:electricity' has value '30 MWc' which could not be parsed",
-        "rejection_keywords": "30 MWc",
-        "timestamp": "2026-04-24T03:20:10.771107",
-        "element_type": "way",
-        "element_id": 1424429671,
-        "country": "Chad",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          15.177424526376255,
-          12.060434115862222
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1424429671",
-        "type": "Unsupported capacity unit",
-        "osm_element": "https://www.openstreetmap.org/way/1424429671",
-        "rejection_reason": "Unsupported capacity unit",
-        "rejection_details": "Tag 'plant:output:electricity' has value '30 MWc' which could not be parsed",
-        "rejection_keywords": "30 MWc",
-        "timestamp": "2026-04-24T03:20:10.771135",
-        "element_type": "way",
-        "element_id": 1424429671,
-        "country": "Chad",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          18.717993091180407,
-          12.181939375615022
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1424430168",
-        "type": "Missing output tag",
-        "osm_element": "https://www.openstreetmap.org/way/1424430168",
-        "rejection_reason": "Missing output tag",
-        "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:20:10.771488",
-        "element_type": "way",
-        "element_id": 1424430168,
-        "country": "Chad",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          22.25909568092242,
-          15.1370569832565
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1424431064",
-        "type": "Missing output tag",
-        "osm_element": "https://www.openstreetmap.org/way/1424431064",
-        "rejection_reason": "Missing output tag",
-        "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:20:10.771626",
-        "element_type": "way",
-        "element_id": 1424431064,
-        "country": "Chad",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          18.370030388448843,
-          13.216701910094667
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1424432275",
-        "type": "Missing output tag",
-        "osm_element": "https://www.openstreetmap.org/way/1424432275",
-        "rejection_reason": "Missing output tag",
-        "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:20:10.771761",
-        "element_type": "way",
-        "element_id": 1424432275,
-        "country": "Chad",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           13.72274750147288,
           -12.463349076956652
         ]
@@ -523,7 +17,7 @@
         "rejection_reason": "Capacity regex no match",
         "rejection_details": "Tag 'plant:output:electricity' has value '22.8' which could not be parsed",
         "rejection_keywords": "22.8",
-        "timestamp": "2026-04-24T03:22:15.147010",
+        "timestamp": "2026-07-01T00:50:59.818782",
         "element_type": "way",
         "element_id": 343230501,
         "country": "Angola",
@@ -546,7 +40,7 @@
         "rejection_reason": "Missing source tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.147259",
+        "timestamp": "2026-07-01T00:50:59.819228",
         "element_type": "way",
         "element_id": 473956004,
         "country": "Angola",
@@ -569,7 +63,7 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:22:15.147605",
+        "timestamp": "2026-07-01T00:50:59.819619",
         "element_type": "way",
         "element_id": 531017619,
         "country": "Angola",
@@ -592,7 +86,7 @@
         "rejection_reason": "Capacity regex no match",
         "rejection_details": "Tag 'plant:output:electricity' has value '32Mw' which could not be parsed",
         "rejection_keywords": "32Mw",
-        "timestamp": "2026-04-24T03:22:15.147766",
+        "timestamp": "2026-07-01T00:50:59.819787",
         "element_type": "way",
         "element_id": 532542586,
         "country": "Angola",
@@ -615,7 +109,7 @@
         "rejection_reason": "Missing source tag",
         "rejection_details": "tags: {'addr:city': 'Lubango', 'addr:street': 'Rua 4 de Abril', 'landuse': 'industrial', 'name': 'Rede Nacional de Transporte de Electricidade (RNT)', 'operator': 'Ministério da Energia e Águas', 'power': 'plant', 'start_date': '1955', 'substation': 'substation'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.148636",
+        "timestamp": "2026-07-01T00:50:59.820728",
         "element_type": "way",
         "element_id": 663880503,
         "country": "Angola",
@@ -638,7 +132,7 @@
         "rejection_reason": "Missing source tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'name': 'CIF Thermal Power Station', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.150829",
+        "timestamp": "2026-07-01T00:50:59.823093",
         "element_type": "way",
         "element_id": 765804930,
         "country": "Angola",
@@ -661,7 +155,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Grupo Gerador', 'operator': 'DPEA', 'plant:method': 'combustion', 'plant:source': 'diesel', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.152442",
+        "timestamp": "2026-07-01T00:50:59.824761",
         "element_type": "way",
         "element_id": 901286518,
         "country": "Angola",
@@ -684,7 +178,7 @@
         "rejection_reason": "Missing source tag",
         "rejection_details": "tags: {'addr:city': 'Lubango', 'addr:street': 'Rua 4 de Abril', 'landuse': 'industrial', 'name': 'Prodel - Empresa Pública de Produção de Eletricidade, E.P.', 'operator': 'Ministério da Energia e Águas', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.153345",
+        "timestamp": "2026-07-01T00:50:59.825726",
         "element_type": "way",
         "element_id": 903484955,
         "country": "Angola",
@@ -707,7 +201,7 @@
         "rejection_reason": "Missing source tag",
         "rejection_details": "tags: {'barrier': 'fence', 'landuse': 'industrial', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.153484",
+        "timestamp": "2026-07-01T00:50:59.825888",
         "element_type": "way",
         "element_id": 915832054,
         "country": "Angola",
@@ -730,7 +224,7 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:22:15.154175",
+        "timestamp": "2026-07-01T00:50:59.826608",
         "element_type": "way",
         "element_id": 1073959379,
         "country": "Angola",
@@ -753,7 +247,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Bie', 'operator': 'PRODEL', 'plant:method': 'combined_cycle', 'plant:source': 'diesel', 'power': 'plant', 'start_date': '2019'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.155487",
+        "timestamp": "2026-07-01T00:50:59.827961",
         "element_type": "way",
         "element_id": 1079921172,
         "country": "Angola",
@@ -776,7 +270,7 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:22:15.157487",
+        "timestamp": "2026-07-01T00:50:59.830020",
         "element_type": "way",
         "element_id": 1080608402,
         "country": "Angola",
@@ -799,7 +293,7 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:22:15.157644",
+        "timestamp": "2026-07-01T00:50:59.830191",
         "element_type": "way",
         "element_id": 1080619676,
         "country": "Angola",
@@ -822,7 +316,7 @@
         "rejection_reason": "Missing source type",
         "rejection_details": "Source value 'solar_radiation;diesel' from tag 'generator:source' is not recognized",
         "rejection_keywords": "solar_radiation;diesel",
-        "timestamp": "2026-04-24T03:22:15.158200",
+        "timestamp": "2026-07-01T00:50:59.830760",
         "element_type": "way",
         "element_id": 1111487006,
         "country": "Angola",
@@ -845,7 +339,7 @@
         "rejection_reason": "Capacity regex no match",
         "rejection_details": "Tag 'plant:output:electricity' has value '8' which could not be parsed",
         "rejection_keywords": "8",
-        "timestamp": "2026-04-24T03:22:15.159244",
+        "timestamp": "2026-07-01T00:50:59.831834",
         "element_type": "way",
         "element_id": 1208245384,
         "country": "Angola",
@@ -868,7 +362,7 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:22:15.159394",
+        "timestamp": "2026-07-01T00:50:59.832005",
         "element_type": "way",
         "element_id": 1208441734,
         "country": "Angola",
@@ -891,7 +385,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Biocom Power Plant', 'name:en': 'Biocom Power Plant', 'plant:source': 'biomass', 'power': 'plant', 'source': 'https://www.gem.wiki/Biocom_power_station'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.159901",
+        "timestamp": "2026-07-01T00:50:59.832531",
         "element_type": "way",
         "element_id": 1236402273,
         "country": "Angola",
@@ -914,7 +408,7 @@
         "rejection_reason": "Missing source tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Sonangol Luanda Refinery Power Station', 'name:en': 'Sonangol Luanda Refinery Power Station', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.160539",
+        "timestamp": "2026-07-01T00:50:59.833203",
         "element_type": "way",
         "element_id": 1280397201,
         "country": "Angola",
@@ -937,32 +431,9 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:22:15.160663",
+        "timestamp": "2026-07-01T00:50:59.833332",
         "element_type": "way",
         "element_id": 1298631571,
-        "country": "Angola",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          15.17876958985375,
-          -16.49197664976867
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1305271906",
-        "type": "Capacity placeholder value",
-        "osm_element": "https://www.openstreetmap.org/way/1305271906",
-        "rejection_reason": "Capacity placeholder value",
-        "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
-        "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:22:15.160782",
-        "element_type": "way",
-        "element_id": 1305271906,
         "country": "Angola",
         "unit_type": "plant"
       }
@@ -983,7 +454,7 @@
         "rejection_reason": "Missing source tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Central Térmica do Cassaque', 'plant:method': 'combustion', 'plant:output:electricity': '24 MW', 'power': 'plant', 'website': 'https://grdservices.co.ao/project/cassaque/'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.160898",
+        "timestamp": "2026-07-01T00:50:59.833575",
         "element_type": "way",
         "element_id": 1314817572,
         "country": "Angola",
@@ -1006,7 +477,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'barrier': 'fence', 'name': 'Saurimo Diamond Hub Hybrid Power Station', 'operator': 'Saurimo Diamond Hub', 'plant:method': 'photovoltaic;diesel', 'plant:source': 'solar', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.161123",
+        "timestamp": "2026-07-01T00:50:59.833803",
         "element_type": "way",
         "element_id": 1323735847,
         "country": "Angola",
@@ -1029,7 +500,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.161410",
+        "timestamp": "2026-07-01T00:50:59.834097",
         "element_type": "way",
         "element_id": 1395054846,
         "country": "Angola",
@@ -1052,7 +523,7 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:22:15.161571",
+        "timestamp": "2026-07-01T00:50:59.834254",
         "element_type": "way",
         "element_id": 1424103703,
         "country": "Angola",
@@ -1075,7 +546,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.161692",
+        "timestamp": "2026-07-01T00:50:59.834378",
         "element_type": "way",
         "element_id": 1424448400,
         "country": "Angola",
@@ -1098,7 +569,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.161863",
+        "timestamp": "2026-07-01T00:50:59.834552",
         "element_type": "way",
         "element_id": 1424448574,
         "country": "Angola",
@@ -1121,7 +592,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.162011",
+        "timestamp": "2026-07-01T00:50:59.834706",
         "element_type": "way",
         "element_id": 1424448863,
         "country": "Angola",
@@ -1144,7 +615,7 @@
         "rejection_reason": "Missing source tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Central', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.162141",
+        "timestamp": "2026-07-01T00:50:59.834841",
         "element_type": "way",
         "element_id": 1430023388,
         "country": "Angola",
@@ -1167,10 +638,378 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Geradores', 'plant:method': 'combustion', 'plant:source': 'diesel', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:15.162295",
+        "timestamp": "2026-07-01T00:50:59.835004",
         "element_type": "way",
         "element_id": 1431176191,
         "country": "Angola",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.15315705722807,
+          5.541760742909014
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 305094997",
+        "type": "Capacity regex no match",
+        "osm_element": "https://www.openstreetmap.org/way/305094997",
+        "rejection_reason": "Capacity regex no match",
+        "rejection_details": "Tag 'plant:output:electricity' has value '25 kW' which could not be parsed",
+        "rejection_keywords": "25 kW",
+        "timestamp": "2026-07-01T00:52:55.813181",
+        "element_type": "way",
+        "element_id": 305094997,
+        "country": "Cameroon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.408094272998293,
+          3.558570513212863
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 334876428",
+        "type": "Missing source tag",
+        "osm_element": "https://www.openstreetmap.org/way/334876428",
+        "rejection_reason": "Missing source tag",
+        "rejection_details": "tags: {'name': 'Centrale Electrique de Mindourou', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T00:52:55.814262",
+        "element_type": "way",
+        "element_id": 334876428,
+        "country": "Cameroon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.317607187923896,
+          5.542625781181867
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 354337479",
+        "type": "Missing source tag",
+        "osm_element": "https://www.openstreetmap.org/way/354337479",
+        "rejection_reason": "Missing source tag",
+        "rejection_details": "tags: {'name': 'Camp SONEL', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T00:52:55.814431",
+        "element_type": "way",
+        "element_id": 354337479,
+        "country": "Cameroon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.673622624350964,
+          4.61433013150938
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 479560652",
+        "type": "Missing source tag",
+        "osm_element": "https://www.openstreetmap.org/way/479560652",
+        "rejection_reason": "Missing source tag",
+        "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Centrale Thermique de Mokolo 4', 'operator': 'Eneo', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T00:52:55.815739",
+        "element_type": "way",
+        "element_id": 479560652,
+        "country": "Cameroon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.454148747669747,
+          3.6974951587269134
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 647168950",
+        "type": "Missing source tag",
+        "osm_element": "https://www.openstreetmap.org/way/647168950",
+        "rejection_reason": "Missing source tag",
+        "rejection_details": "tags: {'addr:city': 'Messondo - Plateau', 'landuse': 'industrial', 'name': 'Ancien site Sonel', 'operator': 'Sonel', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T00:52:55.815903",
+        "element_type": "way",
+        "element_id": 647168950,
+        "country": "Cameroon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.762637447505174,
+          4.034768391430409
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 840726197",
+        "type": "Missing source tag",
+        "osm_element": "https://www.openstreetmap.org/way/840726197",
+        "rejection_reason": "Missing source tag",
+        "rejection_details": "tags: {'name': 'Centrale thermique de Logbaba II', 'plant:method': 'combustion', 'plant:output:electricity': 'yes', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T00:52:55.818150",
+        "element_type": "way",
+        "element_id": 840726197,
+        "country": "Cameroon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.349555868992615,
+          2.73403185711241
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 962982893",
+        "type": "Missing output tag",
+        "osm_element": "https://www.openstreetmap.org/way/962982893",
+        "rejection_reason": "Missing output tag",
+        "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T00:52:55.818759",
+        "element_type": "way",
+        "element_id": 962982893,
+        "country": "Cameroon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.719141783523545,
+          4.55853018469592
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 969327904",
+        "type": "Capacity placeholder value",
+        "osm_element": "https://www.openstreetmap.org/way/969327904",
+        "rejection_reason": "Capacity placeholder value",
+        "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
+        "rejection_keywords": "yes",
+        "timestamp": "2026-07-01T00:52:55.818918",
+        "element_type": "way",
+        "element_id": 969327904,
+        "country": "Cameroon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.27201136252804,
+          3.1202362477121977
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1006930158",
+        "type": "Capacity placeholder value",
+        "osm_element": "https://www.openstreetmap.org/way/1006930158",
+        "rejection_reason": "Capacity placeholder value",
+        "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
+        "rejection_keywords": "yes",
+        "timestamp": "2026-07-01T00:52:55.819046",
+        "element_type": "way",
+        "element_id": 1006930158,
+        "country": "Cameroon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.550883785084864,
+          3.8161494961341482
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1056055961",
+        "type": "Capacity placeholder value",
+        "osm_element": "https://www.openstreetmap.org/way/1056055961",
+        "rejection_reason": "Capacity placeholder value",
+        "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
+        "rejection_keywords": "yes",
+        "timestamp": "2026-07-01T00:52:55.819169",
+        "element_type": "way",
+        "element_id": 1056055961,
+        "country": "Cameroon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.8395274358666,
+          2.3781584797445245
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1068549095",
+        "type": "Missing source tag",
+        "osm_element": "https://www.openstreetmap.org/way/1068549095",
+        "rejection_reason": "Missing source tag",
+        "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Centrale Thermique', 'name:de': 'Thermisches Kraftwerk', 'name:es': 'Central Térmica', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T00:52:55.819286",
+        "element_type": "way",
+        "element_id": 1068549095,
+        "country": "Cameroon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.1640479420534,
+          2.812776975441295
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1068817277",
+        "type": "Missing source tag",
+        "osm_element": "https://www.openstreetmap.org/way/1068817277",
+        "rejection_reason": "Missing source tag",
+        "rejection_details": "tags: {'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T00:52:55.819406",
+        "element_type": "way",
+        "element_id": 1068817277,
+        "country": "Cameroon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.59242479631816,
+          3.9741437711511387
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1116226675",
+        "type": "Missing output tag",
+        "osm_element": "https://www.openstreetmap.org/way/1116226675",
+        "rejection_reason": "Missing output tag",
+        "rejection_details": "tags: {'landuse': 'industrial', 'plant:method': 'combustion', 'plant:output:hot_air': 'yes', 'plant:source': 'waste', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T00:52:55.819534",
+        "element_type": "way",
+        "element_id": 1116226675,
+        "country": "Cameroon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.708348256226609,
+          3.235105473044449
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1378357766",
+        "type": "Capacity placeholder value",
+        "osm_element": "https://www.openstreetmap.org/way/1378357766",
+        "rejection_reason": "Capacity placeholder value",
+        "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
+        "rejection_keywords": "yes",
+        "timestamp": "2026-07-01T00:52:55.820391",
+        "element_type": "way",
+        "element_id": 1378357766,
+        "country": "Cameroon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.542750848851341,
+          5.8742281248805535
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1424431610",
+        "type": "Missing output tag",
+        "osm_element": "https://www.openstreetmap.org/way/1424431610",
+        "rejection_reason": "Missing output tag",
+        "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T00:52:55.820513",
+        "element_type": "way",
+        "element_id": 1424431610,
+        "country": "Cameroon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.103506332190284,
+          9.866344633024918
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1527661782",
+        "type": "Capacity placeholder value",
+        "osm_element": "https://www.openstreetmap.org/way/1527661782",
+        "rejection_reason": "Capacity placeholder value",
+        "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
+        "rejection_keywords": "yes",
+        "timestamp": "2026-07-01T00:52:55.820676",
+        "element_type": "way",
+        "element_id": 1527661782,
+        "country": "Cameroon",
         "unit_type": "plant"
       }
     },
@@ -1190,7 +1029,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:20.824797",
+        "timestamp": "2026-07-01T00:55:02.251736",
         "element_type": "way",
         "element_id": 1209786695,
         "country": "Central African Republic",
@@ -1213,171 +1052,10 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:22:20.825588",
+        "timestamp": "2026-07-01T00:55:02.252523",
         "element_type": "way",
         "element_id": 1424431262,
         "country": "Central African Republic",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          13.545839300827184,
-          -1.76260468031447
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 510004615",
-        "type": "Missing output tag",
-        "osm_element": "https://www.openstreetmap.org/way/510004615",
-        "rejection_reason": "Missing output tag",
-        "rejection_details": "tags: {'building': 'yes', 'plant:method': 'run-of-the-river', 'plant:source': 'hydro', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:13.188095",
-        "element_type": "way",
-        "element_id": 510004615,
-        "country": "Gabon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          9.505235987210918,
-          0.34469127286328816
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 542385732",
-        "type": "Missing source tag",
-        "osm_element": "https://www.openstreetmap.org/way/542385732",
-        "rejection_reason": "Missing source tag",
-        "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Centre SEEG Akournam Owendo', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:13.188732",
-        "element_type": "way",
-        "element_id": 542385732,
-        "country": "Gabon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          13.544500001953683,
-          -1.7630743023511202
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 662920186",
-        "type": "Missing output tag",
-        "osm_element": "https://www.openstreetmap.org/way/662920186",
-        "rejection_reason": "Missing output tag",
-        "rejection_details": "tags: {'building': 'yes', 'plant:method': 'run-of-the-river', 'plant:source': 'hydro', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:13.189267",
-        "element_type": "way",
-        "element_id": 662920186,
-        "country": "Gabon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          13.015030549999997,
-          -1.8243494999999998
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1190190038",
-        "type": "Missing source tag",
-        "osm_element": "https://www.openstreetmap.org/way/1190190038",
-        "rejection_reason": "Missing source tag",
-        "rejection_details": "tags: {'addr:city': 'Bakoumba', 'addr:province': 'Haut-Ogooué', 'building': 'yes', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:13.189801",
-        "element_type": "way",
-        "element_id": 1190190038,
-        "country": "Gabon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.75534019319301,
-          -0.7564054045843088
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1295798802",
-        "type": "Capacity placeholder value",
-        "osm_element": "https://www.openstreetmap.org/way/1295798802",
-        "rejection_reason": "Capacity placeholder value",
-        "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
-        "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:25:13.189975",
-        "element_type": "way",
-        "element_id": 1295798802,
-        "country": "Gabon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          9.525818418958446,
-          0.31627444314757674
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1418662704",
-        "type": "Missing output tag",
-        "osm_element": "https://www.openstreetmap.org/way/1418662704",
-        "rejection_reason": "Missing output tag",
-        "rejection_details": "tags: {'plant:method': 'combustion', 'plant:source': 'oil', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:13.190609",
-        "element_type": "way",
-        "element_id": 1418662704,
-        "country": "Gabon",
-        "unit_type": "plant"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          9.520811797200725,
-          0.31459935944501527
-        ]
-      },
-      "properties": {
-        "label": "Rejected way 1418662705",
-        "type": "Missing output tag",
-        "osm_element": "https://www.openstreetmap.org/way/1418662705",
-        "rejection_reason": "Missing output tag",
-        "rejection_details": "tags: {'name': 'Alenakiri power plant', 'plant:method': 'combustion', 'plant:source': 'oil', 'power': 'plant'}",
-        "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:13.190855",
-        "element_type": "way",
-        "element_id": 1418662705,
-        "country": "Gabon",
         "unit_type": "plant"
       }
     },
@@ -1397,7 +1075,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'name': 'Microcentrale Katwakirundi', 'plant:source': 'hydro', 'power': 'plant', 'type': 'multipolygon'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.301299",
+        "timestamp": "2026-07-01T00:55:54.328084",
         "element_type": "relation",
         "element_id": 14307095,
         "country": "Congo, The Democratic Republic of the",
@@ -1420,7 +1098,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'building': 'industrial', 'description': 'Centrale hydroelectrique 1.6MW', 'landuse': 'industrial', 'name': 'centrale de Mugombe', 'plant:method': 'run-of-the-river', 'plant:source': 'hydro', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.307957",
+        "timestamp": "2026-07-01T00:55:54.334883",
         "element_type": "way",
         "element_id": 562962908,
         "country": "Congo, The Democratic Republic of the",
@@ -1443,7 +1121,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'building': 'yes', 'landuse': 'industrial', 'name': 'CHE Nzoro', 'plant:source': 'hydro', 'power': 'plant', 'start_date': '1934'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.308437",
+        "timestamp": "2026-07-01T00:55:54.335335",
         "element_type": "way",
         "element_id": 830029632,
         "country": "Congo, The Democratic Republic of the",
@@ -1466,7 +1144,7 @@
         "rejection_reason": "Capacity regex no match",
         "rejection_details": "Tag 'plant:output:electricity' has value '13.8' which could not be parsed",
         "rejection_keywords": "13.8",
-        "timestamp": "2026-04-24T03:25:21.309422",
+        "timestamp": "2026-07-01T00:55:54.336311",
         "element_type": "way",
         "element_id": 848901554,
         "country": "Congo, The Democratic Republic of the",
@@ -1478,8 +1156,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          30.262458248259474,
-          1.6378904257492777
+          30.26233624825948,
+          1.6381987257492772
         ]
       },
       "properties": {
@@ -1487,9 +1165,9 @@
         "type": "Missing output tag",
         "osm_element": "https://www.openstreetmap.org/way/999335574",
         "rejection_reason": "Missing output tag",
-        "rejection_details": "tags: {'building': 'yes', 'landuse': 'industrial', 'name': 'CHE Soleniama', 'plant:source': 'hydro', 'power': 'plant', 'source:geometry': 'Maxar_private;Ecopia.AI', 'source:geometry:date': '2019-07-01'}",
+        "rejection_details": "tags: {'building': 'yes', 'name': 'CHE Soleniama', 'plant:source': 'hydro', 'power': 'plant', 'source:geometry': 'Maxar_private;Ecopia.AI', 'source:geometry:date': '2019-07-01'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.311130",
+        "timestamp": "2026-07-01T00:55:54.337989",
         "element_type": "way",
         "element_id": 999335574,
         "country": "Congo, The Democratic Republic of the",
@@ -1512,7 +1190,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Kakula', 'plant:method': 'combustion', 'plant:source': 'diesel', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.313494",
+        "timestamp": "2026-07-01T00:55:54.340376",
         "element_type": "way",
         "element_id": 1111737811,
         "country": "Congo, The Democratic Republic of the",
@@ -1535,7 +1213,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Kansoko', 'plant:method': 'combustion', 'plant:source': 'diesel', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.313635",
+        "timestamp": "2026-07-01T00:55:54.340522",
         "element_type": "way",
         "element_id": 1111853813,
         "country": "Congo, The Democratic Republic of the",
@@ -1558,7 +1236,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'name': 'KCC', 'plant:method': 'combustion', 'plant:source': 'diesel', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.313774",
+        "timestamp": "2026-07-01T00:55:54.340662",
         "element_type": "way",
         "element_id": 1111964106,
         "country": "Congo, The Democratic Republic of the",
@@ -1581,7 +1259,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'name': 'KCC', 'plant:method': 'combustion', 'plant:source': 'diesel', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.313908",
+        "timestamp": "2026-07-01T00:55:54.340799",
         "element_type": "way",
         "element_id": 1111964107,
         "country": "Congo, The Democratic Republic of the",
@@ -1604,7 +1282,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Metakol', 'plant:source': 'diesel', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.314093",
+        "timestamp": "2026-07-01T00:55:54.341014",
         "element_type": "way",
         "element_id": 1111968292,
         "country": "Congo, The Democratic Republic of the",
@@ -1627,7 +1305,7 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:25:21.314250",
+        "timestamp": "2026-07-01T00:55:54.341163",
         "element_type": "way",
         "element_id": 1111971269,
         "country": "Congo, The Democratic Republic of the",
@@ -1650,7 +1328,7 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:25:21.314682",
+        "timestamp": "2026-07-01T00:55:54.341586",
         "element_type": "way",
         "element_id": 1148134129,
         "country": "Congo, The Democratic Republic of the",
@@ -1673,7 +1351,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Mutanda', 'plant:method': 'combustion', 'plant:source': 'diesel', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.314950",
+        "timestamp": "2026-07-01T00:55:54.341873",
         "element_type": "way",
         "element_id": 1148264836,
         "country": "Congo, The Democratic Republic of the",
@@ -1696,7 +1374,7 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:25:21.316315",
+        "timestamp": "2026-07-01T00:55:54.343313",
         "element_type": "way",
         "element_id": 1231754490,
         "country": "Congo, The Democratic Republic of the",
@@ -1719,7 +1397,7 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:25:21.316620",
+        "timestamp": "2026-07-01T00:55:54.343630",
         "element_type": "way",
         "element_id": 1231912591,
         "country": "Congo, The Democratic Republic of the",
@@ -1742,7 +1420,7 @@
         "rejection_reason": "Capacity regex no match",
         "rejection_details": "Tag 'plant:output:electricity' has value '11' which could not be parsed",
         "rejection_keywords": "11",
-        "timestamp": "2026-04-24T03:25:21.316743",
+        "timestamp": "2026-07-01T00:55:54.343755",
         "element_type": "way",
         "element_id": 1231977381,
         "country": "Congo, The Democratic Republic of the",
@@ -1765,7 +1443,7 @@
         "rejection_reason": "Capacity regex no match",
         "rejection_details": "Tag 'plant:output:electricity' has value '150 kW' which could not be parsed",
         "rejection_keywords": "150 kW",
-        "timestamp": "2026-04-24T03:25:21.316879",
+        "timestamp": "2026-07-01T00:55:54.343924",
         "element_type": "way",
         "element_id": 1245460401,
         "country": "Congo, The Democratic Republic of the",
@@ -1788,7 +1466,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.318281",
+        "timestamp": "2026-07-01T00:55:54.345380",
         "element_type": "way",
         "element_id": 1424434910,
         "country": "Congo, The Democratic Republic of the",
@@ -1811,7 +1489,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'name': 'Centrale photovoltaïque de Durba', 'plant:source': 'solar', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.318432",
+        "timestamp": "2026-07-01T00:55:54.345523",
         "element_type": "way",
         "element_id": 1424446375,
         "country": "Congo, The Democratic Republic of the",
@@ -1834,7 +1512,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.318592",
+        "timestamp": "2026-07-01T00:55:54.345687",
         "element_type": "way",
         "element_id": 1424446586,
         "country": "Congo, The Democratic Republic of the",
@@ -1857,7 +1535,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.318767",
+        "timestamp": "2026-07-01T00:55:54.345885",
         "element_type": "way",
         "element_id": 1424447178,
         "country": "Congo, The Democratic Republic of the",
@@ -1880,7 +1558,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.319184",
+        "timestamp": "2026-07-01T00:55:54.346318",
         "element_type": "way",
         "element_id": 1424448332,
         "country": "Congo, The Democratic Republic of the",
@@ -1903,10 +1581,171 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:25:21.319803",
+        "timestamp": "2026-07-01T00:55:54.346950",
         "element_type": "way",
         "element_id": 1455610555,
         "country": "Congo, The Democratic Republic of the",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.637433444790158,
+          7.912542148619535
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 189490518",
+        "type": "Missing source tag",
+        "osm_element": "https://www.openstreetmap.org/way/189490518",
+        "rejection_reason": "Missing source tag",
+        "rejection_details": "tags: {'barrier': 'wall', 'name': 'Centrale Électrique محطة كهرباء', 'name:ar': 'محطة كهرباء', 'name:fr': 'Centrale Électrique', 'operator': 'Government', 'power': 'plant', 'project:eurosha_2012': 'yes', 'source': 'GPS', 'source:date': '2012-11-06'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T00:59:15.452676",
+        "element_type": "way",
+        "element_id": 189490518,
+        "country": "Chad",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.794519089865936,
+          8.53198764767908
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1136273735",
+        "type": "Missing output tag",
+        "osm_element": "https://www.openstreetmap.org/way/1136273735",
+        "rejection_reason": "Missing output tag",
+        "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Doba Kome Power Plant', 'plant:source': 'diesel', 'power': 'plant', 'source': 'https://documents1.worldbank.org/curated/en/289441468743146491/pdf/multi-page.pdf', 'wikipedia': 'en:List of power stations in Chad'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T00:59:15.453202",
+        "element_type": "way",
+        "element_id": 1136273735,
+        "country": "Chad",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.177424526376255,
+          12.060434115862222
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1424429671",
+        "type": "Capacity regex no match",
+        "osm_element": "https://www.openstreetmap.org/way/1424429671",
+        "rejection_reason": "Capacity regex no match",
+        "rejection_details": "Tag 'plant:output:electricity' has value '30 MWc' which could not be parsed",
+        "rejection_keywords": "30 MWc",
+        "timestamp": "2026-07-01T00:59:15.453745",
+        "element_type": "way",
+        "element_id": 1424429671,
+        "country": "Chad",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.177424526376255,
+          12.060434115862222
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1424429671",
+        "type": "Unsupported capacity unit",
+        "osm_element": "https://www.openstreetmap.org/way/1424429671",
+        "rejection_reason": "Unsupported capacity unit",
+        "rejection_details": "Tag 'plant:output:electricity' has value '30 MWc' which could not be parsed",
+        "rejection_keywords": "30 MWc",
+        "timestamp": "2026-07-01T00:59:15.453761",
+        "element_type": "way",
+        "element_id": 1424429671,
+        "country": "Chad",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.717993091180407,
+          12.181939375615022
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1424430168",
+        "type": "Missing output tag",
+        "osm_element": "https://www.openstreetmap.org/way/1424430168",
+        "rejection_reason": "Missing output tag",
+        "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T00:59:15.454117",
+        "element_type": "way",
+        "element_id": 1424430168,
+        "country": "Chad",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.25909568092242,
+          15.1370569832565
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1424431064",
+        "type": "Missing output tag",
+        "osm_element": "https://www.openstreetmap.org/way/1424431064",
+        "rejection_reason": "Missing output tag",
+        "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T00:59:15.454260",
+        "element_type": "way",
+        "element_id": 1424431064,
+        "country": "Chad",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.370030388448843,
+          13.216701910094667
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1424432275",
+        "type": "Missing output tag",
+        "osm_element": "https://www.openstreetmap.org/way/1424432275",
+        "rejection_reason": "Missing output tag",
+        "rejection_details": "tags: {'plant:source': 'solar', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T00:59:15.454400",
+        "element_type": "way",
+        "element_id": 1424432275,
+        "country": "Chad",
         "unit_type": "plant"
       }
     },
@@ -1926,7 +1765,7 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:33:34.170490",
+        "timestamp": "2026-07-01T01:04:04.362337",
         "element_type": "way",
         "element_id": 508780531,
         "country": "Equatorial Guinea",
@@ -1949,7 +1788,7 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:33:34.170683",
+        "timestamp": "2026-07-01T01:04:04.362533",
         "element_type": "way",
         "element_id": 508780585,
         "country": "Equatorial Guinea",
@@ -1972,7 +1811,7 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:33:34.171066",
+        "timestamp": "2026-07-01T01:04:04.363014",
         "element_type": "way",
         "element_id": 859378298,
         "country": "Equatorial Guinea",
@@ -1995,7 +1834,7 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:33:34.171329",
+        "timestamp": "2026-07-01T01:04:04.363180",
         "element_type": "way",
         "element_id": 891684759,
         "country": "Equatorial Guinea",
@@ -2018,7 +1857,7 @@
         "rejection_reason": "Missing source tag",
         "rejection_details": "tags: {'landuse': 'industrial', 'power': 'plant'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:33:34.171473",
+        "timestamp": "2026-07-01T01:04:04.363305",
         "element_type": "way",
         "element_id": 943610832,
         "country": "Equatorial Guinea",
@@ -2041,10 +1880,171 @@
         "rejection_reason": "Capacity placeholder value",
         "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
         "rejection_keywords": "yes",
-        "timestamp": "2026-04-24T03:33:34.171767",
+        "timestamp": "2026-07-01T01:04:04.363601",
         "element_type": "way",
         "element_id": 1350937109,
         "country": "Equatorial Guinea",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.545839300827184,
+          -1.76260468031447
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 510004615",
+        "type": "Missing output tag",
+        "osm_element": "https://www.openstreetmap.org/way/510004615",
+        "rejection_reason": "Missing output tag",
+        "rejection_details": "tags: {'building': 'yes', 'plant:method': 'run-of-the-river', 'plant:source': 'hydro', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T01:06:44.410970",
+        "element_type": "way",
+        "element_id": 510004615,
+        "country": "Gabon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.505235987210918,
+          0.34469127286328816
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 542385732",
+        "type": "Missing source tag",
+        "osm_element": "https://www.openstreetmap.org/way/542385732",
+        "rejection_reason": "Missing source tag",
+        "rejection_details": "tags: {'landuse': 'industrial', 'name': 'Centre SEEG Akournam Owendo', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T01:06:44.411551",
+        "element_type": "way",
+        "element_id": 542385732,
+        "country": "Gabon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.54448449890475,
+          -1.7630980450969214
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 662920186",
+        "type": "Missing output tag",
+        "osm_element": "https://www.openstreetmap.org/way/662920186",
+        "rejection_reason": "Missing output tag",
+        "rejection_details": "tags: {'building': 'yes', 'plant:method': 'run-of-the-river', 'plant:source': 'hydro', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T01:06:44.412099",
+        "element_type": "way",
+        "element_id": 662920186,
+        "country": "Gabon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.015030549999997,
+          -1.8243494999999998
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1190190038",
+        "type": "Missing source tag",
+        "osm_element": "https://www.openstreetmap.org/way/1190190038",
+        "rejection_reason": "Missing source tag",
+        "rejection_details": "tags: {'addr:city': 'Bakoumba', 'addr:province': 'Haut-Ogooué', 'building': 'yes', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T01:06:44.412641",
+        "element_type": "way",
+        "element_id": 1190190038,
+        "country": "Gabon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.75534019319301,
+          -0.7564054045843088
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1295798802",
+        "type": "Capacity placeholder value",
+        "osm_element": "https://www.openstreetmap.org/way/1295798802",
+        "rejection_reason": "Capacity placeholder value",
+        "rejection_details": "Tag 'plant:output:electricity' contains placeholder value 'yes' instead of actual capacity",
+        "rejection_keywords": "yes",
+        "timestamp": "2026-07-01T01:06:44.412821",
+        "element_type": "way",
+        "element_id": 1295798802,
+        "country": "Gabon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.525818418958446,
+          0.31627444314757674
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1418662704",
+        "type": "Missing output tag",
+        "osm_element": "https://www.openstreetmap.org/way/1418662704",
+        "rejection_reason": "Missing output tag",
+        "rejection_details": "tags: {'plant:method': 'combustion', 'plant:source': 'oil', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T01:06:44.413403",
+        "element_type": "way",
+        "element_id": 1418662704,
+        "country": "Gabon",
+        "unit_type": "plant"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.520811797200725,
+          0.31459935944501527
+        ]
+      },
+      "properties": {
+        "label": "Rejected way 1418662705",
+        "type": "Missing output tag",
+        "osm_element": "https://www.openstreetmap.org/way/1418662705",
+        "rejection_reason": "Missing output tag",
+        "rejection_details": "tags: {'name': 'Alenakiri power plant', 'plant:method': 'combustion', 'plant:source': 'oil', 'power': 'plant'}",
+        "rejection_keywords": "none",
+        "timestamp": "2026-07-01T01:06:44.413660",
+        "element_type": "way",
+        "element_id": 1418662705,
+        "country": "Gabon",
         "unit_type": "plant"
       }
     },
@@ -2064,7 +2064,7 @@
         "rejection_reason": "Missing output tag",
         "rejection_details": "tags: {'name': 'Aproveitamento Hidroelétrico do Contador', 'name:en': 'Contador hydropower plant', 'plant:source': 'hydro', 'power': 'plant', 'start_date': '1967'}",
         "rejection_keywords": "none",
-        "timestamp": "2026-04-24T03:34:01.332741",
+        "timestamp": "2026-07-01T01:18:07.586957",
         "element_type": "way",
         "element_id": 1288616875,
         "country": "Sao Tome and Principe",
