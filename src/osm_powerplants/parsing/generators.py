@@ -151,7 +151,9 @@ class GeneratorParser(ElementProcessor):
             return None
 
         start_date = self.extract_start_date_key_from_tags(element, "generator")
-        if start_date is None:
+        if start_date is None and not self.config.get(
+            "missing_start_date_allowed", False
+        ):
             return None
 
         reconstruct_config = self.config.get("units_reconstruction", {})
