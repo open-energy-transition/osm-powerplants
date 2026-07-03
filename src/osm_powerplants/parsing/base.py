@@ -246,7 +246,11 @@ class ElementProcessor(ABC):
         -----
         Technology mapping is source-specific. For example, 'photovoltaic' maps
         to 'PV' only for Solar sources. Uses source_technology_mapping to ensure
-        valid technology-fuel combinations.
+        valid technology-fuel combinations. Tag values listed under several
+        technologies in technology_mapping (e.g. 'combustion', which describes
+        the heat-generating method rather than the prime mover) are resolved by
+        the order of source_technology_mapping[source_type]: the first listed
+        technology wins.
         """
         assert unit_type in ["plant", "generator"], "Invalid unit type"
 
@@ -273,10 +277,11 @@ class ElementProcessor(ABC):
             if key in tags:
                 element_technology = tags[key].lower()
                 store_element_technology = element_technology
-                for config_technology in technology_mapping:
-                    if config_technology in source_tech_mapping[source_type]:
-                        if element_technology in technology_mapping[config_technology]:
-                            return config_technology
+                for config_technology in source_tech_mapping[source_type]:
+                    if element_technology in technology_mapping.get(
+                        config_technology, []
+                    ):
+                        return config_technology
 
         missing_technology_allowed = self.config.get(
             "missing_technology_allowed", False
