@@ -226,7 +226,9 @@ class PlantParser(ElementProcessor):
         if output_key is None:
             return None
 
-        if start_date is None:
+        if start_date is None and not self.config.get(
+            "missing_start_date_allowed", False
+        ):
             return None
 
         geometry = self.geometry_handler.get_element_geometry(element)
