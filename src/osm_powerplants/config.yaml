@@ -78,6 +78,10 @@ technology_mapping:
   PV: [photovoltaic, solar_photovoltaic_panel, ground_mounted, solar, photovoltaic;battery, photovoltaic;thermal, solar_photovoltaic_panel, condensing_turbine;solar_photovoltaic_panel]
   CSP: [solar_thermal_collector, solar_updraft_tower, thermal]
   Marine: []
+# Per-source list of valid technologies. Order matters: tag values that appear
+# under several technologies in technology_mapping (e.g. plant:method=combustion,
+# which describes the heat-generating method, not the prime mover) resolve to the
+# first technology listed here for the plant's source.
 source_technology_mapping:
   Nuclear: [Steam Turbine]
   Solid Biomass: [Steam Turbine, Combustion Engine]
@@ -90,7 +94,7 @@ source_technology_mapping:
   Hard Coal: [Steam Turbine, CCGT, OCGT]
   Lignite: [Steam Turbine]
   Geothermal: [Steam Turbine]
-  Waste: [Combustion Engine, Steam Turbine]
+  Waste: [Steam Turbine, Combustion Engine]  # waste incinerators are boiler + steam turbine
   Battery: []
   Other: [Marine]
 set_mapping:
