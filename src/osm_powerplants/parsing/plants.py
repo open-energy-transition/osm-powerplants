@@ -261,6 +261,7 @@ class PlantParser(ElementProcessor):
             capacity=capacity,
             capacity_source=info,
             start_date=start_date,
+            eic=self.extract_eic_from_tags(element),
         )
 
     def _get_member_element(self, member: dict[str, Any]) -> dict[str, Any] | None:

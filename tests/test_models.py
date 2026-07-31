@@ -78,6 +78,17 @@ def test_units_empty_statistics():
     assert stats["total_units"] == 0
 
 
+def test_unit_eic_in_dict():
+    """EIC is carried into the output dict when set, omitted when None."""
+    from osm_powerplants.models import Unit
+
+    with_eic = Unit(projectID="1", Name="Amercentrale", EIC="49W000000000070Z")
+    assert with_eic.to_dict()["EIC"] == "49W000000000070Z"
+
+    without_eic = Unit(projectID="2", Name="Unknown")
+    assert "EIC" not in without_eic.to_dict()
+
+
 def test_plant_geometry_point():
     """Test PlantGeometry with point."""
     from shapely.geometry import Point

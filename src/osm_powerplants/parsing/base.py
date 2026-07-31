@@ -92,6 +92,27 @@ class ElementProcessor(ABC):
         )
         self.geometry_handler = geometry_handler
 
+    def extract_eic_from_tags(self, element: dict[str, Any]) -> str | None:
+        """Extract the ENTSO-E EIC code(s) from the OSM ``ref:EU:EIC`` tag.
+
+        Parameters
+        ----------
+        element : dict
+            OSM element with tags
+
+        Returns
+        -------
+        str or None
+            Raw tag value (multiple codes stay semicolon-separated, as in
+            OSM), or None if the tag is absent or blank. Optional metadata:
+            never a rejection reason.
+        """
+        eic = element.get("tags", {}).get("ref:EU:EIC")
+        if eic is None:
+            return None
+        eic = eic.strip()
+        return eic or None
+
     def extract_name_from_tags(
         self, element: dict[str, Any], unit_type: str
     ) -> str | None:
